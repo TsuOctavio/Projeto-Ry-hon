@@ -1,26 +1,31 @@
 // Config - Pages
-const list = document.querySelector('.list ul');
+const list = document.querySelector(".list ul");
 let pageCount = 1;
+
+async function loadPage(pageName) {
+  const response = await fetch(`src/pages/${pageName}/${pageName}.html`);
+  const html = await response.text();
+  const container = document.querySelector(`#tab_1`);
+  container.innerHTML = html;
+}
 
 // Function to show the selected page and update the title
 function showPageById(targetId, titleText) {
-  document.querySelectorAll('.page').forEach(p => {
-    p.style.display = 'none';
-  });
+  loadPage(targetId);
 
   const targetPage = document.querySelector(`.page[data-page="${targetId}"]`);
   if (targetPage) {
-    if (["dice", "sheet", "Guild", "Big_NPCs"].includes(targetId)) {
-      targetPage.style.display = 'flex';
+    if (["dice", "sheet", "guild", "big-npcs"].includes(targetId)) {
+      targetPage.style.display = "flex";
     } else {
-      targetPage.style.display = 'block';
+      targetPage.style.display = "block";
     }
   }
 
   const titlePage = document.getElementById("title_page");
   if (titlePage) titlePage.textContent = titleText;
 
-  if (targetId === 'Big_NPCs') {
+  if (targetId === "big-npcs") {
     loadClanData("Oda");
   }
 }
@@ -54,8 +59,8 @@ function createListButton(name, targetId) {
 }
 
 // Initialize fixed buttons (Dice, War, World)
-document.querySelectorAll('.list li[data-target]').forEach(item => {
-  const target = item.getAttribute('data-target');
+document.querySelectorAll(".list li[data-target]").forEach((item) => {
+  const target = item.getAttribute("data-target");
   const name = item.textContent.trim();
 
   const newLi = createListButton(name, target);
@@ -75,34 +80,34 @@ document.getElementById("more_sheet").addEventListener("click", () => {
   // 1 - Clone the sheet page
   const sheetPage = document.querySelector('.page[data-page="sheet"]');
   const newPage = sheetPage.cloneNode(true);
-  newPage.setAttribute('data-page', targetId);
+  newPage.setAttribute("data-page", targetId);
   document.getElementById("tab_1").appendChild(newPage);
 
   // 2 - Setup more_skill button for the new page
-  const skillList = newPage.querySelector('.skills');
-  const moreSkillBtn = newPage.querySelector('.more_skill');
-  moreSkillBtn.addEventListener('click', () => {
-    const li = document.createElement('li');
+  const skillList = newPage.querySelector(".skills");
+  const moreSkillBtn = newPage.querySelector(".more_skill");
+  moreSkillBtn.addEventListener("click", () => {
+    const li = document.createElement("li");
     li.contentEditable = "true";
-    const span = document.createElement('span');
-    span.classList.add('iten_name');
+    const span = document.createElement("span");
+    span.classList.add("iten_name");
     span.contentEditable = "true";
     li.appendChild(span);
     skillList.appendChild(li);
   });
 
   // 3 - Setup more_iten button for the new page
-  const itemList = newPage.querySelector('.iten_list');
-  const moreItenBtn = newPage.querySelector('.more_iten');
-  moreItenBtn.addEventListener('click', () => {
-    const li = document.createElement('li');
-    const input = document.createElement('input');
+  const itemList = newPage.querySelector(".iten_list");
+  const moreItenBtn = newPage.querySelector(".more_iten");
+  moreItenBtn.addEventListener("click", () => {
+    const li = document.createElement("li");
+    const input = document.createElement("input");
     input.type = "number";
-    input.classList.add('N2');
+    input.classList.add("N2");
     input.value = 1;
     input.min = 0;
-    const span = document.createElement('span');
-    span.classList.add('iten_name');
+    const span = document.createElement("span");
+    span.classList.add("iten_name");
     span.contentEditable = "true";
     span.textContent = "New Item";
     li.appendChild(input);
@@ -114,7 +119,7 @@ document.getElementById("more_sheet").addEventListener("click", () => {
   const newLi = document.createElement("li");
   newLi.classList.add("Character_sheet");
   newLi.textContent = name;
-  newLi.setAttribute('data-target', targetId);
+  newLi.setAttribute("data-target", targetId);
 
   // Open the new sheet on click
   newLi.addEventListener("click", () => {
@@ -168,21 +173,24 @@ document.getElementById("more_sheet").addEventListener("click", () => {
 
     document.body.appendChild(menu);
 
-    document.addEventListener("click", () => {
-      if (document.body.contains(menu)) document.body.removeChild(menu);
-    }, { once: true });
+    document.addEventListener(
+      "click",
+      () => {
+        if (document.body.contains(menu)) document.body.removeChild(menu);
+      },
+      { once: true }
+    );
   });
 
   document.getElementById("Tfoot").appendChild(newLi);
 });
-
 
 //Tab 2 table
 function updateCharacterTable() {
   const tableBody = document.getElementById("character-table-body");
   tableBody.innerHTML = "";
 
-  document.querySelectorAll("#Tfoot li.Character_sheet").forEach(li => {
+  document.querySelectorAll("#Tfoot li.Character_sheet").forEach((li) => {
     const sheetName = li.textContent.trim();
     const targetId = li.getAttribute("data-target");
 
@@ -191,7 +199,20 @@ function updateCharacterTable() {
     const sheetPage = document.querySelector(`.page[data-page="${targetId}"]`);
     if (!sheetPage) return;
 
-    const stats = ["str", "dex", "con", "per", "int", "wil", "cha", "fai", "mag", "aur", "Karma", "Gold"];
+    const stats = [
+      "str",
+      "dex",
+      "con",
+      "per",
+      "int",
+      "wil",
+      "cha",
+      "fai",
+      "mag",
+      "aur",
+      "Karma",
+      "Gold",
+    ];
     const row = document.createElement("tr");
 
     const nameCell = document.createElement("td");
@@ -201,7 +222,7 @@ function updateCharacterTable() {
     nameCell.style.whiteSpace = "normal";
     row.appendChild(nameCell);
 
-    stats.forEach(stat => {
+    stats.forEach((stat) => {
       const input = sheetPage.querySelector(`input.${stat}`);
       const td = document.createElement("td");
       td.textContent = input ? input.value : "-";
@@ -212,9 +233,11 @@ function updateCharacterTable() {
   });
 }
 
-document.getElementById("updateTableButton").addEventListener("click", updateCharacterTable);
+document
+  .getElementById("updateTableButton")
+  .addEventListener("click", updateCharacterTable);
 
-//Botton of table 
+//Botton of table
 let currentSortColumn = null;
 let sortDirection = 1;
 
@@ -243,7 +266,7 @@ function sortTableByColumn(columnIndex) {
   });
 
   tableBody.innerHTML = "";
-  rowsArray.forEach(row => tableBody.appendChild(row));
+  rowsArray.forEach((row) => tableBody.appendChild(row));
 
   if (currentSortColumn === columnIndex) {
     sortDirection *= -1;
@@ -252,7 +275,6 @@ function sortTableByColumn(columnIndex) {
     currentSortColumn = columnIndex;
   }
 }
-
 
 //Map
 const mapContainer = document.getElementById("mapContainer");
@@ -266,8 +288,8 @@ let infoMode = false;
 let tooltip = null;
 
 fetch("src/Images/Sketch/Maps-not-colered.svg")
-  .then(res => res.text())
-  .then(svgText => {
+  .then((res) => res.text())
+  .then((svgText) => {
     mapContainer.innerHTML = svgText;
     const svgRoot = mapContainer.querySelector("svg");
 
@@ -275,7 +297,7 @@ fetch("src/Images/Sketch/Maps-not-colered.svg")
     svgRoot.style.transformBox = "fill-box";
 
     // Zoom
-    mapContainer.addEventListener('wheel', (e) => {
+    mapContainer.addEventListener("wheel", (e) => {
       e.preventDefault();
       const zoom = e.deltaY < 0 ? 1.1 : 0.9;
       scale *= zoom;
@@ -283,12 +305,12 @@ fetch("src/Images/Sketch/Maps-not-colered.svg")
     });
 
     // Pan
-    mapContainer.addEventListener('mousedown', (e) => {
+    mapContainer.addEventListener("mousedown", (e) => {
       dragging = true;
       dragStart = { x: e.clientX, y: e.clientY };
     });
 
-    window.addEventListener('mousemove', (e) => {
+    window.addEventListener("mousemove", (e) => {
       if (!dragging) return;
       const dx = e.clientX - dragStart.x;
       const dy = e.clientY - dragStart.y;
@@ -298,7 +320,7 @@ fetch("src/Images/Sketch/Maps-not-colered.svg")
       updateTransform();
     });
 
-    window.addEventListener('mouseup', () => dragging = false);
+    window.addEventListener("mouseup", () => (dragging = false));
 
     function updateTransform() {
       const containerWidth = mapContainer.clientWidth;
@@ -320,73 +342,73 @@ fetch("src/Images/Sketch/Maps-not-colered.svg")
 
     // TOOLTIPS and paint
     const stateData = {
-      "Mutsu_1": { clan: "Date" },
-      "Mutsu_2": { clan: "Date" },
-      "Dewa_1": { clan: "Mogami" },
-      "Dewa_2": { clan: "Mogami" },
-      "Mutsu_3": { clan: "Hatakeyama" },
-      "Noto": { clan: "Hatakeyama" },
-      "Kii": { clan: "Hatakeyama" },
-      "Kawachi": { clan: "Hatakeyama" },
-      "Mutsu_4": { clan: "Ashina" },
-      "Sado": { clan: "Uesugi" },
-      "Echigo": { clan: "Uesugi" },
-      "Kozuke": { clan: "Uesugi" },
-      "Shimosa": { clan: "Satomi" },
-      "Kazusa": { clan: "Satomi" },
-      "Musashi": { clan: "Hojo" },
-      "Sagami": { clan: "Hojo" },
-      "Izu": { clan: "Hojo" },
-      "Shinano_1": { clan: "Takeda" },
-      "Shinano_2": { clan: "Takeda" },
-      "Kai": { clan: "Takeda" },
-      "Suruga": { clan: "Imagawa" },
-      "Hotomi": { clan: "Imagawa" },
-      "Mikawa": { clan: "Tokugawa" },
-      "Owari": { clan: "Oda" },
-      "Mino": { clan: "Saito" },
-      "Hida": { clan: "Anegakoji" },
-      "Etchu": { clan: "Ikko-Ikki" },
-      "Kaga": { clan: "Asakura" },
-      "Echizen": { clan: "Asakura" },
-      "Wakaza": { clan: "Azai" },
-      "Omi": { clan: "Rokkaku" },
-      "Iga": { clan: "Iga" },
-      "Ise": { clan: "Kitabatake" },
-      "Yamato": { clan: "Matsunaga" },
-      "Yamashiro": { clan: "Ashikaga" },
-      "Tanba": { clan: "Hatano" },
-      "Settsu": { clan: "Miyoshi" },
-      "Awaji": { clan: "Miyoshi" },
-      "Awa": { clan: "Miyoshi" },
-      "Harima": { clan: "Bessho" },
-      "Tango": { clan: "Hosokawa" },
-      "Sanuki": { clan: "Hosokawa" },
-      "Tajima": { clan: "Yamana" },
-      "Inaba": { clan: "Yamana" },
-      "Mimasaka": { clan: "Urakami" },
-      "Bizen": { clan: "Urakami" },
-      "Bitchu": { clan: "Ukita" },
-      "Bingo": { clan: "Kikkawa" },
-      "Hoki": { clan: "Amako" },
-      "Izumo": { clan: "Amako" },
-      "Iwami": { clan: "Amako" },
-      "Aki": { clan: "Mori" },
-      "Suo": { clan: "Mori" },
-      "Choshu": { clan: "Mori" },
-      "Tosa": { clan: "Chokabe" },
-      "Iyo": { clan: "Kono" },
-      "Bungo": { clan: "Otomo" },
-      "Buzen": { clan: "Otomo" },
-      "Chikuzen": { clan: "Ryuzoji" },
-      "Hizen": { clan: "Ryuzoji" },
-      "Higo": { clan: "Sagara" },
-      "Satsuma": { clan: "Shimazu" },
-      "Hyuga": { clan: "Ito" },
-      "Osumi": { clan: "Ito" }
+      Mutsu_1: { clan: "Date" },
+      Mutsu_2: { clan: "Date" },
+      Dewa_1: { clan: "Mogami" },
+      Dewa_2: { clan: "Mogami" },
+      Mutsu_3: { clan: "Hatakeyama" },
+      Noto: { clan: "Hatakeyama" },
+      Kii: { clan: "Hatakeyama" },
+      Kawachi: { clan: "Hatakeyama" },
+      Mutsu_4: { clan: "Ashina" },
+      Sado: { clan: "Uesugi" },
+      Echigo: { clan: "Uesugi" },
+      Kozuke: { clan: "Uesugi" },
+      Shimosa: { clan: "Satomi" },
+      Kazusa: { clan: "Satomi" },
+      Musashi: { clan: "Hojo" },
+      Sagami: { clan: "Hojo" },
+      Izu: { clan: "Hojo" },
+      Shinano_1: { clan: "Takeda" },
+      Shinano_2: { clan: "Takeda" },
+      Kai: { clan: "Takeda" },
+      Suruga: { clan: "Imagawa" },
+      Hotomi: { clan: "Imagawa" },
+      Mikawa: { clan: "Tokugawa" },
+      Owari: { clan: "Oda" },
+      Mino: { clan: "Saito" },
+      Hida: { clan: "Anegakoji" },
+      Etchu: { clan: "Ikko-Ikki" },
+      Kaga: { clan: "Asakura" },
+      Echizen: { clan: "Asakura" },
+      Wakaza: { clan: "Azai" },
+      Omi: { clan: "Rokkaku" },
+      Iga: { clan: "Iga" },
+      Ise: { clan: "Kitabatake" },
+      Yamato: { clan: "Matsunaga" },
+      Yamashiro: { clan: "Ashikaga" },
+      Tanba: { clan: "Hatano" },
+      Settsu: { clan: "Miyoshi" },
+      Awaji: { clan: "Miyoshi" },
+      Awa: { clan: "Miyoshi" },
+      Harima: { clan: "Bessho" },
+      Tango: { clan: "Hosokawa" },
+      Sanuki: { clan: "Hosokawa" },
+      Tajima: { clan: "Yamana" },
+      Inaba: { clan: "Yamana" },
+      Mimasaka: { clan: "Urakami" },
+      Bizen: { clan: "Urakami" },
+      Bitchu: { clan: "Ukita" },
+      Bingo: { clan: "Kikkawa" },
+      Hoki: { clan: "Amako" },
+      Izumo: { clan: "Amako" },
+      Iwami: { clan: "Amako" },
+      Aki: { clan: "Mori" },
+      Suo: { clan: "Mori" },
+      Choshu: { clan: "Mori" },
+      Tosa: { clan: "Chokabe" },
+      Iyo: { clan: "Kono" },
+      Bungo: { clan: "Otomo" },
+      Buzen: { clan: "Otomo" },
+      Chikuzen: { clan: "Ryuzoji" },
+      Hizen: { clan: "Ryuzoji" },
+      Higo: { clan: "Sagara" },
+      Satsuma: { clan: "Shimazu" },
+      Hyuga: { clan: "Ito" },
+      Osumi: { clan: "Ito" },
     };
 
-    svgRoot.querySelectorAll("[id]").forEach(el => {
+    svgRoot.querySelectorAll("[id]").forEach((el) => {
       if (el.id === "g511") return;
 
       el.addEventListener("mouseenter", (e) => {
@@ -400,15 +422,18 @@ fetch("src/Images/Sketch/Maps-not-colered.svg")
 
         tooltip = document.createElement("div");
         tooltip.className = "tooltip";
-        tooltip.innerHTML = `<strong>${id}</strong><br>${clan}` +
-          (otherStates.length ? `<br><small>+${otherStates.join(", ")}</small>` : "");
+        tooltip.innerHTML =
+          `<strong>${id}</strong><br>${clan}` +
+          (otherStates.length
+            ? `<br><small>+${otherStates.join(", ")}</small>`
+            : "");
         document.body.appendChild(tooltip);
       });
 
       el.addEventListener("mousemove", (e) => {
         if (tooltip) {
-          tooltip.style.left = (e.pageX + 10) + "px";
-          tooltip.style.top = (e.pageY - tooltip.offsetHeight - 10) + "px";
+          tooltip.style.left = e.pageX + 10 + "px";
+          tooltip.style.top = e.pageY - tooltip.offsetHeight - 10 + "px";
         }
       });
 
@@ -427,12 +452,12 @@ fetch("src/Images/Sketch/Maps-not-colered.svg")
     });
 
     // Clan button
-    document.querySelectorAll(".clan-button").forEach(button => {
+    document.querySelectorAll(".clan-button").forEach((button) => {
       button.addEventListener("click", () => {
         document.body.style.cursor = "crosshair";
         currentClan = {
           name: button.dataset.clan,
-          color: button.style.backgroundColor
+          color: button.style.backgroundColor,
         };
       });
     });
@@ -447,15 +472,16 @@ fetch("src/Images/Sketch/Maps-not-colered.svg")
     }
 
     document.addEventListener("click", (e) => {
-      if (!mapContainer.contains(e.target) && !document.getElementById("legend").contains(e.target)) {
+      if (
+        !mapContainer.contains(e.target) &&
+        !document.getElementById("legend").contains(e.target)
+      ) {
         document.body.style.cursor = "default";
         currentClan = null;
         infoMode = false;
       }
     });
-
   });
-
 
 //Guild_Description - Party
 const rankDescriptions = {
@@ -470,11 +496,10 @@ const rankDescriptions = {
 
 document.getElementById("Rank_F_to_S").addEventListener("change", () => {
   const selectedRank = document.getElementById("Rank_F_to_S").value;
-  const description = rankDescriptions[selectedRank] || "No description available.";
+  const description =
+    rankDescriptions[selectedRank] || "No description available.";
   document.getElementById("Party_description_2").textContent = description;
 });
-
-
 
 //Quests - Guild
 // Rank quest
@@ -486,27 +511,51 @@ const questsByRank = {
     { desc: "Deliver mail to three villages", reward: 63, points: 3 },
     { desc: "Help rebuild a destroyed bridge", reward: 59, points: 5 },
     { desc: "Clean up an abandoned temple", reward: 57, points: 3 },
-    { desc: "Investigate missing chickens in a village", reward: 68, points: 2 },
-    { desc: "Accompany children on their way to temple school", reward: 64, points: 5 },
+    {
+      desc: "Investigate missing chickens in a village",
+      reward: 68,
+      points: 2,
+    },
+    {
+      desc: "Accompany children on their way to temple school",
+      reward: 64,
+      points: 5,
+    },
     { desc: "Help transport local supplies", reward: 63, points: 3 },
     { desc: "Assist local patrol officers for a night", reward: 70, points: 3 },
   ],
   E: [
     { desc: "Hunt wolves attacking livestock", reward: 102, points: 5 },
     { desc: "Patrol a road between villages", reward: 95, points: 6 },
-    { desc: "Bring urgent medicine to an isolated village", reward: 93, points: 6 },
+    {
+      desc: "Bring urgent medicine to an isolated village",
+      reward: 93,
+      points: 6,
+    },
     { desc: "Transport religious artifacts safely", reward: 101, points: 7 },
     { desc: "Guard a warehouse at night", reward: 85, points: 6 },
-    { desc: "Investigate strange footprints in the forest", reward: 107, points: 5 },
+    {
+      desc: "Investigate strange footprints in the forest",
+      reward: 107,
+      points: 5,
+    },
     { desc: "Accompany a merchant on a dangerous road", reward: 88, points: 6 },
-    { desc: "Search for medicinal herbs in a yokai area", reward: 104, points: 6 },
+    {
+      desc: "Search for medicinal herbs in a yokai area",
+      reward: 104,
+      points: 6,
+    },
     { desc: "Train local militia for basic defense", reward: 94, points: 4 },
     { desc: "Scare away bandits from a farm", reward: 95, points: 4 },
   ],
   D: [
     { desc: "Eliminate a band of highway robbers", reward: 130, points: 7 },
     { desc: "Protect a merchant caravan", reward: 120, points: 7 },
-    { desc: "Investigate the disappearance of peasants", reward: 139, points: 6 },
+    {
+      desc: "Investigate the disappearance of peasants",
+      reward: 139,
+      points: 6,
+    },
     { desc: "Explore a cave with mysterious sounds", reward: 136, points: 7 },
     { desc: "Help a temple attacked by minor yokai", reward: 141, points: 7 },
     { desc: "Rescue a kidnapped child", reward: 135, points: 8 },
@@ -514,103 +563,367 @@ const questsByRank = {
     { desc: "Escort a city magistrate", reward: 122, points: 6 },
     { desc: "Recover a noble family heirloom", reward: 134, points: 6 },
     { desc: "Destroy a small rebel camp", reward: 137, points: 6 },
-    { desc: "Track a yokai that escaped from a ritual prison", reward: 123, points: 7 },
-    { desc: "Survey suspicious movement in a border town", reward: 127, points: 8 },
-    { desc: "Defend a village during a local festival", reward: 125, points: 6 },
-    { desc: "Help hunters on a mission against a supernatural beast", reward: 133, points: 8 },
+    {
+      desc: "Track a yokai that escaped from a ritual prison",
+      reward: 123,
+      points: 7,
+    },
+    {
+      desc: "Survey suspicious movement in a border town",
+      reward: 127,
+      points: 8,
+    },
+    {
+      desc: "Defend a village during a local festival",
+      reward: 125,
+      points: 6,
+    },
+    {
+      desc: "Help hunters on a mission against a supernatural beast",
+      reward: 133,
+      points: 8,
+    },
     { desc: "Reorganize supplies lost in an attack", reward: 129, points: 7 },
-    { desc: "Capture a bandit leader alive for questioning", reward: 140, points: 8 },
-    { desc: "Observe a suspicious ceremony in an isolated temple", reward: 121, points: 6 },
-    { desc: "Clear ancient ruins of traps and spirits", reward: 138, points: 7 },
+    {
+      desc: "Capture a bandit leader alive for questioning",
+      reward: 140,
+      points: 8,
+    },
+    {
+      desc: "Observe a suspicious ceremony in an isolated temple",
+      reward: 121,
+      points: 6,
+    },
+    {
+      desc: "Clear ancient ruins of traps and spirits",
+      reward: 138,
+      points: 7,
+    },
     { desc: "Escort a famous artist to another city", reward: 132, points: 6 },
-    { desc: "Keep order during the distribution of war supplies", reward: 126, points: 7 },
+    {
+      desc: "Keep order during the distribution of war supplies",
+      reward: 126,
+      points: 7,
+    },
   ],
   C: [
     { desc: "Defend a village wall in conflict", reward: 189, points: 10 },
-    { desc: "Infiltrate a rival group and obtain information", reward: 185, points: 9 },
-    { desc: "Fight a creeping yokai that haunts a mountain", reward: 176, points: 8 },
-    { desc: "Escort a military shipment to the border", reward: 188, points: 10 },
-    { desc: "Sabotage a bridge in an enemy-controlled region", reward: 192, points: 11 },
+    {
+      desc: "Infiltrate a rival group and obtain information",
+      reward: 185,
+      points: 9,
+    },
+    {
+      desc: "Fight a creeping yokai that haunts a mountain",
+      reward: 176,
+      points: 8,
+    },
+    {
+      desc: "Escort a military shipment to the border",
+      reward: 188,
+      points: 10,
+    },
+    {
+      desc: "Sabotage a bridge in an enemy-controlled region",
+      reward: 192,
+      points: 11,
+    },
     { desc: "Protect a festival in an important city", reward: 180, points: 9 },
     { desc: "Capture a spy from a rival clan", reward: 186, points: 8 },
     { desc: "Accompany and protect a diplomat", reward: 181, points: 9 },
     { desc: "Hunt a large spirit beast", reward: 191, points: 10 },
-    { desc: "Evacuate civilians during an armed conflict", reward: 179, points: 8 },
-    { desc: "Map an alternative route for imperial troops", reward: 183, points: 9 },
-    { desc: "Interrupt a summoning ritual in a dark forest", reward: 187, points: 10 },
+    {
+      desc: "Evacuate civilians during an armed conflict",
+      reward: 179,
+      points: 8,
+    },
+    {
+      desc: "Map an alternative route for imperial troops",
+      reward: 183,
+      points: 9,
+    },
+    {
+      desc: "Interrupt a summoning ritual in a dark forest",
+      reward: 187,
+      points: 10,
+    },
     { desc: "Recover documents stolen by dissidents", reward: 178, points: 9 },
-    { desc: "Defend a temple under attack by fanatics", reward: 182, points: 8 },
-    { desc: "Investigate a mine where miners have gone mad", reward: 175, points: 9 },
-    { desc: "Establish a new observation post in a disputed region", reward: 184, points: 10 },
+    {
+      desc: "Defend a temple under attack by fanatics",
+      reward: 182,
+      points: 8,
+    },
+    {
+      desc: "Investigate a mine where miners have gone mad",
+      reward: 175,
+      points: 9,
+    },
+    {
+      desc: "Establish a new observation post in a disputed region",
+      reward: 184,
+      points: 10,
+    },
     { desc: "Protect a convoy of sacred supplies", reward: 186, points: 9 },
-    { desc: "Defeat a group of monks corrupted by yokai", reward: 193, points: 11 },
-    { desc: "Intercept a diplomatic message and exchange it without being noticed", reward: 177, points: 10 },
-    { desc: "Recover an artifact sunk in a spiritual lake", reward: 190, points: 9 },
+    {
+      desc: "Defeat a group of monks corrupted by yokai",
+      reward: 193,
+      points: 11,
+    },
+    {
+      desc: "Intercept a diplomatic message and exchange it without being noticed",
+      reward: 177,
+      points: 10,
+    },
+    {
+      desc: "Recover an artifact sunk in a spiritual lake",
+      reward: 190,
+      points: 9,
+    },
   ],
   B: [
-    { desc: "Assassinate enemy general during battle", reward: 258, points: 14 },
-    { desc: "Protect gold shipment through hostile territory", reward: 268, points: 13 },
-    { desc: "Negotiate with yokai to liberate territory", reward: 249, points: 12 },
+    {
+      desc: "Assassinate enemy general during battle",
+      reward: 258,
+      points: 14,
+    },
+    {
+      desc: "Protect gold shipment through hostile territory",
+      reward: 268,
+      points: 13,
+    },
+    {
+      desc: "Negotiate with yokai to liberate territory",
+      reward: 249,
+      points: 12,
+    },
     { desc: "Infiltrate fortress and steal war maps", reward: 262, points: 14 },
     { desc: "Destroy unholy altar in cursed forest", reward: 265, points: 13 },
-    { desc: "Defend village from coordinated bandit attack", reward: 255, points: 12 },
+    {
+      desc: "Defend village from coordinated bandit attack",
+      reward: 255,
+      points: 12,
+    },
     { desc: "Investigate corruption in allied city", reward: 257, points: 13 },
-    { desc: "Eliminate monster enslaving forest spirits", reward: 264, points: 14 },
-    { desc: "Escort disguised nobleman to neutral region", reward: 266, points: 13 },
+    {
+      desc: "Eliminate monster enslaving forest spirits",
+      reward: 264,
+      points: 14,
+    },
+    {
+      desc: "Escort disguised nobleman to neutral region",
+      reward: 266,
+      points: 13,
+    },
     { desc: "Organize ambush in strategic valley", reward: 250, points: 12 },
-    { desc: "Eliminate conspiring emissary of rival clan", reward: 259, points: 13 },
-    { desc: "Escort sacred convoy from distant lands", reward: 248, points: 12 },
-    { desc: "Contain possession outbreaks in rural city", reward: 260, points: 14 },
+    {
+      desc: "Eliminate conspiring emissary of rival clan",
+      reward: 259,
+      points: 13,
+    },
+    {
+      desc: "Escort sacred convoy from distant lands",
+      reward: 248,
+      points: 12,
+    },
+    {
+      desc: "Contain possession outbreaks in rural city",
+      reward: 260,
+      points: 14,
+    },
     { desc: "Install spies in enemy council", reward: 267, points: 13 },
     { desc: "Disrupt enemy supply line", reward: 256, points: 12 },
     { desc: "Win duel against rival city champion", reward: 263, points: 14 },
-    { desc: "Organize evacuation of isolated monastery", reward: 251, points: 12 },
-    { desc: "Deal with yokai that take the form of familiar people", reward: 269, points: 13 },
-    { desc: "Protect advisor carrying secret treaties", reward: 270, points: 13 },
+    {
+      desc: "Organize evacuation of isolated monastery",
+      reward: 251,
+      points: 12,
+    },
+    {
+      desc: "Deal with yokai that take the form of familiar people",
+      reward: 269,
+      points: 13,
+    },
+    {
+      desc: "Protect advisor carrying secret treaties",
+      reward: 270,
+      points: 13,
+    },
     { desc: "Steal enemy war flag to break morale", reward: 253, points: 12 },
   ],
   A: [
-    { desc: "Seal an accidentally released ancient yokai", reward: 420, points: 18 },
+    {
+      desc: "Seal an accidentally released ancient yokai",
+      reward: 420,
+      points: 18,
+    },
     { desc: "Command the defense of a besieged city", reward: 409, points: 17 },
-    { desc: "Assume a false identity to infiltrate the enemy council", reward: 415, points: 18 },
-    { desc: "Protect a sacred temple against an enemy army", reward: 425, points: 17 },
-    { desc: "Prevent the assassination of a regional governor", reward: 402, points: 16 },
-    { desc: "Eliminate a traitor who infiltrated the allied army", reward: 417, points: 18 },
-    { desc: "Explore the cursed ruins of a lost castle", reward: 432, points: 17 },
-    { desc: "Suppress a revolt in a city with speech and force", reward: 418, points: 16 },
-    { desc: "Recover a legendary weapon from the hands of an oni", reward: 427, points: 18 },
-    { desc: "Mediate a treaty between two clans on the verge of war", reward: 421, points: 16 },
-    { desc: "Investigate disappearances in a forest where time has come to", reward: 416, points: 17 },
-    { desc: "Undo a curse that affects a daimyō's lineage", reward: 430, points: 18 },
-    { desc: "Protect the imperial library during a conflict", reward: 405, points: 17 },
-    { desc: "Sabotage a secret alliance ceremony between rebel clans", reward: 408, points: 16 },
-    { desc: "Ensure the transportation of a religious artifact between rival regions", reward: 411, points: 17 },
-    { desc: "Create disinformation to demoralize a rival clan", reward: 426, points: 17 },
-    { desc: "Stop a group of legendary assassins who crossed the border", reward: 429, points: 18 },
-    { desc: "Discover the origin of earthquakes caused by underground yokai", reward: 419, points: 17 },
-    { desc: "Forge an alliance between humans and the guardian spirit of a region", reward: 423, points: 16 },
-    { desc: "Defend the spiritual successor of the south on a prophetic journey", reward: 413, points: 18 },
+    {
+      desc: "Assume a false identity to infiltrate the enemy council",
+      reward: 415,
+      points: 18,
+    },
+    {
+      desc: "Protect a sacred temple against an enemy army",
+      reward: 425,
+      points: 17,
+    },
+    {
+      desc: "Prevent the assassination of a regional governor",
+      reward: 402,
+      points: 16,
+    },
+    {
+      desc: "Eliminate a traitor who infiltrated the allied army",
+      reward: 417,
+      points: 18,
+    },
+    {
+      desc: "Explore the cursed ruins of a lost castle",
+      reward: 432,
+      points: 17,
+    },
+    {
+      desc: "Suppress a revolt in a city with speech and force",
+      reward: 418,
+      points: 16,
+    },
+    {
+      desc: "Recover a legendary weapon from the hands of an oni",
+      reward: 427,
+      points: 18,
+    },
+    {
+      desc: "Mediate a treaty between two clans on the verge of war",
+      reward: 421,
+      points: 16,
+    },
+    {
+      desc: "Investigate disappearances in a forest where time has come to",
+      reward: 416,
+      points: 17,
+    },
+    {
+      desc: "Undo a curse that affects a daimyō's lineage",
+      reward: 430,
+      points: 18,
+    },
+    {
+      desc: "Protect the imperial library during a conflict",
+      reward: 405,
+      points: 17,
+    },
+    {
+      desc: "Sabotage a secret alliance ceremony between rebel clans",
+      reward: 408,
+      points: 16,
+    },
+    {
+      desc: "Ensure the transportation of a religious artifact between rival regions",
+      reward: 411,
+      points: 17,
+    },
+    {
+      desc: "Create disinformation to demoralize a rival clan",
+      reward: 426,
+      points: 17,
+    },
+    {
+      desc: "Stop a group of legendary assassins who crossed the border",
+      reward: 429,
+      points: 18,
+    },
+    {
+      desc: "Discover the origin of earthquakes caused by underground yokai",
+      reward: 419,
+      points: 17,
+    },
+    {
+      desc: "Forge an alliance between humans and the guardian spirit of a region",
+      reward: 423,
+      points: 16,
+    },
+    {
+      desc: "Defend the spiritual successor of the south on a prophetic journey",
+      reward: 413,
+      points: 18,
+    },
   ],
   S: [
-    { desc: "Defeat a celestial dragon that corrupts the sky", reward: 650, points: 25 },
-    { desc: "Rebuild a shrine using stolen spiritual power", reward: 620, points: 24 },
-    { desc: "Face an invincible general and win in open field", reward: 640, points: 26 },
-    { desc: "Confront a fallen kami who commands an army of the dead", reward: 660, points: 27 },
-    { desc: "Negotiate peace between humans and the yokai kingdom", reward: 600, points: 23 },
-    { desc: "Eliminate a group of legendary assassins who threaten the Guild", reward: 610, points: 22 },
-    { desc: "Recover an artifact capable of destroying entire provinces", reward: 670, points: 28 },
-    { desc: "Protect the imperial successor during a secret ceremony", reward: 630, points: 25 },
-    { desc: "Liberate a city subjugated by an ancient evil spirit", reward: 645, points: 26 },
-    { desc: "Slay a minor god freed by a ritual error", reward: "700 + divine blessing", points: 30 },
-  ]
+    {
+      desc: "Defeat a celestial dragon that corrupts the sky",
+      reward: 650,
+      points: 25,
+    },
+    {
+      desc: "Rebuild a shrine using stolen spiritual power",
+      reward: 620,
+      points: 24,
+    },
+    {
+      desc: "Face an invincible general and win in open field",
+      reward: 640,
+      points: 26,
+    },
+    {
+      desc: "Confront a fallen kami who commands an army of the dead",
+      reward: 660,
+      points: 27,
+    },
+    {
+      desc: "Negotiate peace between humans and the yokai kingdom",
+      reward: 600,
+      points: 23,
+    },
+    {
+      desc: "Eliminate a group of legendary assassins who threaten the Guild",
+      reward: 610,
+      points: 22,
+    },
+    {
+      desc: "Recover an artifact capable of destroying entire provinces",
+      reward: 670,
+      points: 28,
+    },
+    {
+      desc: "Protect the imperial successor during a secret ceremony",
+      reward: 630,
+      points: 25,
+    },
+    {
+      desc: "Liberate a city subjugated by an ancient evil spirit",
+      reward: 645,
+      points: 26,
+    },
+    {
+      desc: "Slay a minor god freed by a ritual error",
+      reward: "700 + divine blessing",
+      points: 30,
+    },
+  ],
 };
 
 const specialRequests = {
   B: [
-    { desc: "(Village Chief) Find Kagemaru's missing son", reward: "750 + Village Alliance", points: 16 },
-    { desc: "(Daimyō of Kai Province) Recover Takeda clan's ancient armor", reward: "900 + Legendary Item", points: 18 },
-    { desc: "(Miners of Mountain) Investigate voices whispering in the caves that led to the deaths of three excavators.", reward: "880 + spiritual crystals", points: 17 },
-    { desc: "(Elderly Swordmaster) Challenge and defeat 7 swordsmen of lost styles in honor of an ancient spiritual treatise.", reward: "950 + secret technique", points: 19 },
+    {
+      desc: "(Village Chief) Find Kagemaru's missing son",
+      reward: "750 + Village Alliance",
+      points: 16,
+    },
+    {
+      desc: "(Daimyō of Kai Province) Recover Takeda clan's ancient armor",
+      reward: "900 + Legendary Item",
+      points: 18,
+    },
+    {
+      desc: "(Miners of Mountain) Investigate voices whispering in the caves that led to the deaths of three excavators.",
+      reward: "880 + spiritual crystals",
+      points: 17,
+    },
+    {
+      desc: "(Elderly Swordmaster) Challenge and defeat 7 swordsmen of lost styles in honor of an ancient spiritual treatise.",
+      reward: "950 + secret technique",
+      points: 19,
+    },
     { desc: "None", reward: "0", points: 0 },
     { desc: "None", reward: "0", points: 0 },
     { desc: "None", reward: "0", points: 0 },
@@ -618,10 +931,26 @@ const specialRequests = {
     { desc: "None", reward: "0", points: 0 },
   ],
   A: [
-    { desc: "(Street Artist with Sealed Pact) Slay an Oni disguised as a human with masks", reward: "1100 + Cursed Mask", points: 21 },
-    { desc: "(Head of Temple) Investigate a village where an invisible Oni manipulates emotions, driving the villagers mad.", reward: "1200 + spiritual seal", points: 22 },
-    { desc: "(Neighboring Daimyō of Echigo) Save important hostages before the besieged castle is taken by rebel forces.", reward: "1300 + influence letter", points: 20 },
-    { desc: "(Exiled Shugenja of Sado) Steal scrolls from the temple where you were betrayed, without harming the monks, and destroy the final seal.", reward: "1250 + forbidden spiritual art", points: 23 },
+    {
+      desc: "(Street Artist with Sealed Pact) Slay an Oni disguised as a human with masks",
+      reward: "1100 + Cursed Mask",
+      points: 21,
+    },
+    {
+      desc: "(Head of Temple) Investigate a village where an invisible Oni manipulates emotions, driving the villagers mad.",
+      reward: "1200 + spiritual seal",
+      points: 22,
+    },
+    {
+      desc: "(Neighboring Daimyō of Echigo) Save important hostages before the besieged castle is taken by rebel forces.",
+      reward: "1300 + influence letter",
+      points: 20,
+    },
+    {
+      desc: "(Exiled Shugenja of Sado) Steal scrolls from the temple where you were betrayed, without harming the monks, and destroy the final seal.",
+      reward: "1250 + forbidden spiritual art",
+      points: 23,
+    },
     { desc: "None", reward: "0", points: 0 },
     { desc: "None", reward: "0", points: 0 },
     { desc: "None", reward: "0", points: 0 },
@@ -629,14 +958,22 @@ const specialRequests = {
     { desc: "None", reward: "0", points: 0 },
   ],
   S: [
-    { desc: "(Spiritual Guardian of Lake) Reunite 3 artifacts to restore Lake Aoi", reward: "2000 + Eternal Blessing", points: 30 },
-    { desc: "(Messenger of the “Dark Throne”) Protect the true imperial heir as he travels between monasteries in disguise.", reward: "1800 + political immunity", points: 28 },
+    {
+      desc: "(Spiritual Guardian of Lake) Reunite 3 artifacts to restore Lake Aoi",
+      reward: "2000 + Eternal Blessing",
+      points: 30,
+    },
+    {
+      desc: "(Messenger of the “Dark Throne”) Protect the true imperial heir as he travels between monasteries in disguise.",
+      reward: "1800 + political immunity",
+      points: 28,
+    },
     { desc: "None", reward: "0", points: 0 },
     { desc: "None", reward: "0", points: 0 },
     { desc: "None", reward: "0", points: 0 },
     { desc: "None", reward: "0", points: 0 },
     { desc: "None", reward: "0", points: 0 },
-  ]
+  ],
 };
 
 const rankOrder = ["F", "E", "D", "C", "B", "A", "S"];
@@ -650,7 +987,7 @@ document.getElementById("Quest_search").addEventListener("click", () => {
   for (let i = 0; i <= rankIndex; i++) {
     const r = rankOrder[i];
     if (questsByRank[r]) {
-      questsByRank[r].forEach(q => availableQuests.push({ ...q, rank: r }));
+      questsByRank[r].forEach((q) => availableQuests.push({ ...q, rank: r }));
     }
   }
 
@@ -668,7 +1005,7 @@ document.getElementById("Quest_search").addEventListener("click", () => {
     const q = availableQuests.splice(idx, 1)[0];
     if (usedDescriptions.has(q.desc)) continue;
 
-    const emptySlot = selected.findIndex(e => !e);
+    const emptySlot = selected.findIndex((e) => !e);
     selected[emptySlot] = q;
     usedDescriptions.add(q.desc);
   }
@@ -679,7 +1016,7 @@ document.getElementById("Quest_search").addEventListener("click", () => {
     const sp = specials[Math.floor(Math.random() * specials.length)];
     specialQuest = {
       ...sp,
-      rank: `Special Request (${selectedRank})`
+      rank: `Special Request (${selectedRank})`,
     };
   }
 
@@ -703,15 +1040,15 @@ document.getElementById("Quest_search").addEventListener("click", () => {
   }
 });
 
-
-//Territories
+//territories
 let food = parseInt(document.getElementById("Food").value) || 0;
 let army = parseInt(document.getElementById("Army").value) || 0;
 let happiness = parseInt(document.getElementById("Happiness").value) || 0;
 let population = parseInt(document.getElementById("Population").value) || 0;
 let agriculture = parseInt(document.getElementById("Agriculture").value) || 0;
 let money = parseInt(document.getElementById("Money").value) || 0;
-let infrastructure = parseInt(document.getElementById("Infrastructure").value) || 0;
+let infrastructure =
+  parseInt(document.getElementById("Infrastructure").value) || 0;
 let business = parseInt(document.getElementById("Business").value) || 0;
 
 // Control variables
@@ -720,7 +1057,6 @@ let foodChange = 0;
 let happinessChange = 0;
 let moneyChange = 0;
 let populationChange = 0;
-
 
 foodChange -= population;
 foodChange += agriculture * 3;
@@ -731,10 +1067,8 @@ if (food + foodChange > 0) {
   happinessChange -= 5;
 }
 
-
 moneyChange -= army;
 happinessChange += Math.floor(army / 10);
-
 
 if (happiness >= 40) {
   populationChange += 10;
@@ -747,9 +1081,7 @@ if (happiness >= 70) {
   moneyChange += 5;
 }
 
-
 moneyChange += population * 2;
-
 
 moneyChange -= infrastructure;
 if (infrastructure >= population + 10) {
@@ -758,7 +1090,6 @@ if (infrastructure >= population + 10) {
 if (infrastructure < population) {
   happinessChange -= 7;
 }
-
 
 moneyChange += business * 3;
 
@@ -781,150 +1112,1062 @@ function removeWorkers(count) {
 
 const randomEvents = {
   visit: [
-    { title: "Traveling Artist", description: "A famous artist brings joy.<br><br>description:<br>happiness +10", effect: () => happiness += 10 },
-    { title: "Honest Merchant", description: "A merchant brings great trade.<br><br>description:<br>money +200", effect: () => money += 200 },
-    { title: "Dishonest Merchant", description: "A merchant scammed the people.<br><br>description:<br>happiness -5<br>money -100", effect: () => { money -= 100; happiness -= 5; } },
-    { title: "Refugees Arrive", description: "Refugees ask for shelter.<br><br>description:<br>population +30<br>food -30", effect: () => { population += 30; food -= 30; } },
-    { title: "Wandering Monk", description: "A peaceful monk shares wisdom with your citizens.<br><br>description:<br>happiness +5", effect: () => { happiness += 5; } },
-    { title: "Noble from Distant Land", description: "A foreign noble visits with expensive gifts.<br><br>description:<br>happiness +5<br>money +150", effect: () => { money += 150; happiness += 5; } },
-    { title: "Suspicious Wanderer", description: "A lone traveler refuses to give his name. Tensions rise.<br><br>description:<br>happiness -5", effect: () => { happiness -= 5; } },
-    { title: "Famous Storyteller", description: "A bard captivates the people with tales of old heroes.<br><br>description:<br>happiness +8", effect: () => { happiness += 8; } },
-    { title: "Wounded Samurai", description: "A warrior with deep wounds asks for sanctuary.<br><br>description:<br>army +10<br>food -20", effect: () => { army += 10; food -= 20; } },
     {
-      title: "The Royal Inspector", description: "An agent of the Emperor inspects your town.<br><br>description:<br>if happiness > 60 → money +300<br>else → happiness -5", effect: () => {
+      title: "Traveling Artist",
+      description:
+        "A famous artist brings joy.<br><br>description:<br>happiness +10",
+      effect: () => (happiness += 10),
+    },
+    {
+      title: "Honest Merchant",
+      description:
+        "A merchant brings great trade.<br><br>description:<br>money +200",
+      effect: () => (money += 200),
+    },
+    {
+      title: "Dishonest Merchant",
+      description:
+        "A merchant scammed the people.<br><br>description:<br>happiness -5<br>money -100",
+      effect: () => {
+        money -= 100;
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Refugees Arrive",
+      description:
+        "Refugees ask for shelter.<br><br>description:<br>population +30<br>food -30",
+      effect: () => {
+        population += 30;
+        food -= 30;
+      },
+    },
+    {
+      title: "Wandering Monk",
+      description:
+        "A peaceful monk shares wisdom with your citizens.<br><br>description:<br>happiness +5",
+      effect: () => {
+        happiness += 5;
+      },
+    },
+    {
+      title: "Noble from Distant Land",
+      description:
+        "A foreign noble visits with expensive gifts.<br><br>description:<br>happiness +5<br>money +150",
+      effect: () => {
+        money += 150;
+        happiness += 5;
+      },
+    },
+    {
+      title: "Suspicious Wanderer",
+      description:
+        "A lone traveler refuses to give his name. Tensions rise.<br><br>description:<br>happiness -5",
+      effect: () => {
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Famous Storyteller",
+      description:
+        "A bard captivates the people with tales of old heroes.<br><br>description:<br>happiness +8",
+      effect: () => {
+        happiness += 8;
+      },
+    },
+    {
+      title: "Wounded Samurai",
+      description:
+        "A warrior with deep wounds asks for sanctuary.<br><br>description:<br>army +10<br>food -20",
+      effect: () => {
+        army += 10;
+        food -= 20;
+      },
+    },
+    {
+      title: "The Royal Inspector",
+      description:
+        "An agent of the Emperor inspects your town.<br><br>description:<br>if happiness > 60 → money +300<br>else → happiness -5",
+      effect: () => {
         if (happiness > 60) {
           money += 300;
         } else {
           happiness -= 5;
         }
-      }
+      },
     },
-    { title: "Medicine Seller", description: "An herbalist offers rare potions for a small fee.<br><br>description:<br>happiness +3<br>money -50", effect: () => { happiness += 3; money -= 50; } },
-    { title: "Troubadour Couple", description: "A pair of musicians attracts large crowds nightly.<br><br>description:<br>happiness +10<br>food -30", effect: () => { happiness += 10; food -= 30; } },
-    { title: "Foreign Ambassador", description: "An envoy from another nation seeks diplomatic contact.<br><br>description:<br>happiness +5", effect: () => { happiness += 5; } },
-    { title: "Outlaw in Disguise", description: "A criminal poses as a traveling merchant.<br><br>description:<br>happiness -5<br>money -100", effect: () => { happiness -= 5; money -= 100; } },
-    { title: "Wandering Blacksmith", description: "A master craftsman offers to forge weapons for your soldiers.<br><br>description:<br>army +10<br>money -100", effect: () => { money -= 100; army += 10; } },
-    { title: "Former Servant Returns", description: "An old servant who fled during a rebellion comes back in shame.<br><br>description:<br>happiness +2", effect: () => { happiness += 2; } },
-    { title: "Diviner Passes Through", description: "A mysterious oracle speaks of omens and future trials.<br><br>description:<br>happiness +5", effect: () => { happiness += 5; } },
-    { title: "Drunken Poet", description: "A poetic drunk entertains the crowds but causes some trouble.<br><br>description:<br>happiness +10<br>food -10", effect: () => { happiness += 10; food -= 10; } },
-    { title: "Missionary from a Foreign Religion", description: "A missionary preaches a new faith to the people.<br><br>description:<br>happiness +5", effect: () => { happiness += 5; } },
-    { title: "Wandering Farmer", description: "An experienced farmer offers to teach new crop rotation methods.<br><br>description:<br>agriculture +2<br>food +50", effect: () => { agriculture += 2; food += 50; } }
+    {
+      title: "Medicine Seller",
+      description:
+        "An herbalist offers rare potions for a small fee.<br><br>description:<br>happiness +3<br>money -50",
+      effect: () => {
+        happiness += 3;
+        money -= 50;
+      },
+    },
+    {
+      title: "Troubadour Couple",
+      description:
+        "A pair of musicians attracts large crowds nightly.<br><br>description:<br>happiness +10<br>food -30",
+      effect: () => {
+        happiness += 10;
+        food -= 30;
+      },
+    },
+    {
+      title: "Foreign Ambassador",
+      description:
+        "An envoy from another nation seeks diplomatic contact.<br><br>description:<br>happiness +5",
+      effect: () => {
+        happiness += 5;
+      },
+    },
+    {
+      title: "Outlaw in Disguise",
+      description:
+        "A criminal poses as a traveling merchant.<br><br>description:<br>happiness -5<br>money -100",
+      effect: () => {
+        happiness -= 5;
+        money -= 100;
+      },
+    },
+    {
+      title: "Wandering Blacksmith",
+      description:
+        "A master craftsman offers to forge weapons for your soldiers.<br><br>description:<br>army +10<br>money -100",
+      effect: () => {
+        money -= 100;
+        army += 10;
+      },
+    },
+    {
+      title: "Former Servant Returns",
+      description:
+        "An old servant who fled during a rebellion comes back in shame.<br><br>description:<br>happiness +2",
+      effect: () => {
+        happiness += 2;
+      },
+    },
+    {
+      title: "Diviner Passes Through",
+      description:
+        "A mysterious oracle speaks of omens and future trials.<br><br>description:<br>happiness +5",
+      effect: () => {
+        happiness += 5;
+      },
+    },
+    {
+      title: "Drunken Poet",
+      description:
+        "A poetic drunk entertains the crowds but causes some trouble.<br><br>description:<br>happiness +10<br>food -10",
+      effect: () => {
+        happiness += 10;
+        food -= 10;
+      },
+    },
+    {
+      title: "Missionary from a Foreign Religion",
+      description:
+        "A missionary preaches a new faith to the people.<br><br>description:<br>happiness +5",
+      effect: () => {
+        happiness += 5;
+      },
+    },
+    {
+      title: "Wandering Farmer",
+      description:
+        "An experienced farmer offers to teach new crop rotation methods.<br><br>description:<br>agriculture +2<br>food +50",
+      effect: () => {
+        agriculture += 2;
+        food += 50;
+      },
+    },
   ],
   attack: [
-    { title: "Bandit Raid", description: "Bandits raided the outskirts of your territory.<br><br>description:<br>money -200<br>happiness -10<br>population -5<br>business -5", effect: () => { money -= 200; happiness -= 10; population -= 5; business = Math.max(0, business - 5); removeWorkers(5); } },
-    { title: "Monster Rampage", description: "A beast attacked a village at night.<br><br>description:<br>food -100<br>population -15", effect: () => { food -= 100; population -= 15; removeWorkers(15); } },
-    { title: "Infestation of Locusts", description: "Locusts devoured crops across multiple farms.<br><br>description:<br>food -200", effect: () => { food -= 200; } },
-    { title: "Rats in the Granary", description: "Rats destroyed a portion of your stored food.<br><br>description:<br>food -80", effect: () => { food -= 80; } },
-    { title: "Enemy Scouts Spotted", description: "Foreign scouts were seen near your borders.<br><br>description:<br>happiness -15", effect: () => { happiness -= 15; } },
-    { title: "Small Clan Skirmish", description: "A minor clan attacked a frontier post.<br><br>description:<br>army -5<br>happiness -5<br>population -5", effect: () => { army = Math.max(0, army - 5); happiness -= 5; population -= 5; removeWorkers(5); } },
-    { title: "Bandit Hideout Discovered", description: "You found a bandit camp but they escaped after setting fire.<br><br>description:<br>food -50<br>army -2<br>population -2<br>agriculture -2", effect: () => { food -= 50; army = Math.max(0, army - 2); population -= 2; agriculture = Math.max(0, agriculture - 2); removeWorkers(2); } },
-    { title: "Flooded Bridge", description: "An enemy destroyed a bridge, delaying trade.<br><br>description:<br>money -100", effect: () => { money -= 100; } },
-    { title: "Beast Kills Livestock", description: "A wild animal attacked and killed livestock.<br><br>description:<br>food -70", effect: () => { food -= 70; } },
-    { title: "Fire in the Village", description: "An unknown group set fire to a farming village.<br><br>description:<br>agriculture -2<br>happiness -5", effect: () => { agriculture = Math.max(0, agriculture - 2); happiness -= 5; } },
-    { title: "Poisoned Well", description: "A saboteur poisoned a well. Some people died.<br><br>description:<br>population -20<br>business -10<br>agriculture -10", effect: () => { population -= 20; business = Math.max(0, business - 10); agriculture = Math.max(0, agriculture - 10); removeWorkers(20); } },
-    { title: "Sabotage in the Market", description: "Explosives were planted near the central market.<br><br>description:<br>money -150", effect: () => { money -= 150; } },
-    { title: "Thieves in the Night", description: "Thieves broke into a storage house and escaped with goods.<br><br>description:<br>food -60<br>money -60", effect: () => { food -= 60; money -= 60; } },
-    { title: "Wolves Attack", description: "A pack of wolves hunted near your settlements.<br><br>description:<br>population -12<br>food -30<br>army -12", effect: () => { population -= 12; food -= 30; army = Math.max(0, army - 12); removeWorkers(12); } },
-    { title: "Terrorist Plot Foiled", description: "A rebel plot was stopped, but panic spread.<br><br>description:<br>happiness -5<br>army -2<br>population -2", effect: () => { happiness -= 5; army = Math.max(0, army - 2); population -= 2; removeWorkers(2); } },
-    { title: "Enemy Army Spotted", description: "A rival army was seen preparing nearby.<br><br>description:<br>happiness -15", effect: () => { happiness -= 15; } },
-    { title: "Harassment by Pirates", description: "Pirates attacked coastal trade caravans.<br><br>description:<br>money -200<br>happiness -5", effect: () => { money -= 200; happiness -= 5; } },
-    { title: "Mine Sabotaged", description: "A traitor blew up a part of the mine.<br><br>description:<br>money -100<br>business -10", effect: () => { money -= 100; business = Math.max(0, business - 10); } },
-    { title: "Cattle Disease Spread", description: "An illness spread through your livestock.<br><br>description:<br>food -100", effect: () => { food -= 100; } },
-    { title: "Secret Tunnel Breach", description: "Rebels tunneled under the wall and attacked a storage room.<br><br>description:<br>food -80<br>happiness -5", effect: () => { food -= 80; happiness -= 5; } }
+    {
+      title: "Bandit Raid",
+      description:
+        "Bandits raided the outskirts of your territory.<br><br>description:<br>money -200<br>happiness -10<br>population -5<br>business -5",
+      effect: () => {
+        money -= 200;
+        happiness -= 10;
+        population -= 5;
+        business = Math.max(0, business - 5);
+        removeWorkers(5);
+      },
+    },
+    {
+      title: "Monster Rampage",
+      description:
+        "A beast attacked a village at night.<br><br>description:<br>food -100<br>population -15",
+      effect: () => {
+        food -= 100;
+        population -= 15;
+        removeWorkers(15);
+      },
+    },
+    {
+      title: "Infestation of Locusts",
+      description:
+        "Locusts devoured crops across multiple farms.<br><br>description:<br>food -200",
+      effect: () => {
+        food -= 200;
+      },
+    },
+    {
+      title: "Rats in the Granary",
+      description:
+        "Rats destroyed a portion of your stored food.<br><br>description:<br>food -80",
+      effect: () => {
+        food -= 80;
+      },
+    },
+    {
+      title: "Enemy Scouts Spotted",
+      description:
+        "Foreign scouts were seen near your borders.<br><br>description:<br>happiness -15",
+      effect: () => {
+        happiness -= 15;
+      },
+    },
+    {
+      title: "Small Clan Skirmish",
+      description:
+        "A minor clan attacked a frontier post.<br><br>description:<br>army -5<br>happiness -5<br>population -5",
+      effect: () => {
+        army = Math.max(0, army - 5);
+        happiness -= 5;
+        population -= 5;
+        removeWorkers(5);
+      },
+    },
+    {
+      title: "Bandit Hideout Discovered",
+      description:
+        "You found a bandit camp but they escaped after setting fire.<br><br>description:<br>food -50<br>army -2<br>population -2<br>agriculture -2",
+      effect: () => {
+        food -= 50;
+        army = Math.max(0, army - 2);
+        population -= 2;
+        agriculture = Math.max(0, agriculture - 2);
+        removeWorkers(2);
+      },
+    },
+    {
+      title: "Flooded Bridge",
+      description:
+        "An enemy destroyed a bridge, delaying trade.<br><br>description:<br>money -100",
+      effect: () => {
+        money -= 100;
+      },
+    },
+    {
+      title: "Beast Kills Livestock",
+      description:
+        "A wild animal attacked and killed livestock.<br><br>description:<br>food -70",
+      effect: () => {
+        food -= 70;
+      },
+    },
+    {
+      title: "Fire in the Village",
+      description:
+        "An unknown group set fire to a farming village.<br><br>description:<br>agriculture -2<br>happiness -5",
+      effect: () => {
+        agriculture = Math.max(0, agriculture - 2);
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Poisoned Well",
+      description:
+        "A saboteur poisoned a well. Some people died.<br><br>description:<br>population -20<br>business -10<br>agriculture -10",
+      effect: () => {
+        population -= 20;
+        business = Math.max(0, business - 10);
+        agriculture = Math.max(0, agriculture - 10);
+        removeWorkers(20);
+      },
+    },
+    {
+      title: "Sabotage in the Market",
+      description:
+        "Explosives were planted near the central market.<br><br>description:<br>money -150",
+      effect: () => {
+        money -= 150;
+      },
+    },
+    {
+      title: "Thieves in the Night",
+      description:
+        "Thieves broke into a storage house and escaped with goods.<br><br>description:<br>food -60<br>money -60",
+      effect: () => {
+        food -= 60;
+        money -= 60;
+      },
+    },
+    {
+      title: "Wolves Attack",
+      description:
+        "A pack of wolves hunted near your settlements.<br><br>description:<br>population -12<br>food -30<br>army -12",
+      effect: () => {
+        population -= 12;
+        food -= 30;
+        army = Math.max(0, army - 12);
+        removeWorkers(12);
+      },
+    },
+    {
+      title: "Terrorist Plot Foiled",
+      description:
+        "A rebel plot was stopped, but panic spread.<br><br>description:<br>happiness -5<br>army -2<br>population -2",
+      effect: () => {
+        happiness -= 5;
+        army = Math.max(0, army - 2);
+        population -= 2;
+        removeWorkers(2);
+      },
+    },
+    {
+      title: "Enemy Army Spotted",
+      description:
+        "A rival army was seen preparing nearby.<br><br>description:<br>happiness -15",
+      effect: () => {
+        happiness -= 15;
+      },
+    },
+    {
+      title: "Harassment by Pirates",
+      description:
+        "Pirates attacked coastal trade caravans.<br><br>description:<br>money -200<br>happiness -5",
+      effect: () => {
+        money -= 200;
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Mine Sabotaged",
+      description:
+        "A traitor blew up a part of the mine.<br><br>description:<br>money -100<br>business -10",
+      effect: () => {
+        money -= 100;
+        business = Math.max(0, business - 10);
+      },
+    },
+    {
+      title: "Cattle Disease Spread",
+      description:
+        "An illness spread through your livestock.<br><br>description:<br>food -100",
+      effect: () => {
+        food -= 100;
+      },
+    },
+    {
+      title: "Secret Tunnel Breach",
+      description:
+        "Rebels tunneled under the wall and attacked a storage room.<br><br>description:<br>food -80<br>happiness -5",
+      effect: () => {
+        food -= 80;
+        happiness -= 5;
+      },
+    },
   ],
   resistance: [
-    { title: "Warehouse Plundered", description: "Angry rebels stormed the food stores.<br><br>description:<br>food -100<br>happiness -5", effect: () => { food -= 100; happiness -= 5; } },
-    { title: "Weapons Stolen", description: "Rebels stole weapons from your armory.<br><br>description:<br>army -10<br>happiness -5", effect: () => { army = Math.max(0, army - 10); happiness -= 5; } },
-    { title: "Castle Storm Attempt", description: "A rebellion tried to take the castle but failed.<br><br>description:<br>happiness -20", effect: () => { happiness -= 20; } },
-    { title: "Tax Office Burned", description: "Rebels set fire to the local tax office.<br><br>description:<br>money -150", effect: () => { money -= 150; } },
-    { title: "Rebel Propaganda", description: "Pamphlets and graffiti turn people against the leadership.<br><br>description:<br>happiness -10", effect: () => { happiness -= 10; } },
-    { title: "Food Poisoning Scandal", description: "Rebels contaminated food to incite panic.<br><br>description:<br>food -50<br>population -5", effect: () => { food -= 50; population -= 5; removeWorkers(5); } },
-    { title: "Rebel Leader Captured", description: "A rebel leader is caught and executed publicly.<br><br>description:<br>happiness +5", effect: () => { happiness += 5; } },
-    { title: "Hidden Tunnel Found", description: "Rebels dug a tunnel to escape the city with resources.<br><br>description:<br>money -100", effect: () => { money -= 100; } },
-    { title: "Militia Recruitment", description: "Civilians secretly trained by rebels rise up.<br><br>description:<br>army -15<br>happiness -10", effect: () => { army = Math.max(0, army - 15); happiness -= 10; } },
-    { title: "Rebel Riot", description: "A violent riot erupts in the town square.<br><br>description:<br>happiness -15<br>population -10", effect: () => { happiness -= 15; population -= 10; removeWorkers(10); } },
-    { title: "Market Fire", description: "Arsonists set fire to the central market.<br><br>description:<br>business -3<br>happiness -5", effect: () => { business = Math.max(0, business - 3); happiness -= 5; } },
-    { title: "Civil Sabotage", description: "City workers disrupt daily operations to protest.<br><br>description:<br>agriculture -2<br>business -2", effect: () => { agriculture = Math.max(0, agriculture - 2); business = Math.max(0, business - 2); } },
-    { title: "Water Wells Tainted", description: "Wells are poisoned in the outer districts.<br><br>description:<br>population -8<br>food -30", effect: () => { population -= 8; food -= 30; removeWorkers(8); } },
-    { title: "Captured Officials", description: "Rebels kidnap and ransom local officials.<br><br>description:<br>money -200", effect: () => { money -= 200; } },
-    { title: "Rural Uprising", description: "Farmers protest against food distribution policies.<br><br>description:<br>agriculture -5", effect: () => { agriculture = Math.max(0, agriculture - 5); } },
-    { title: "Workshop Strike", description: "Craftsmen halt all production, demanding reforms.<br><br>description:<br>business -4", effect: () => { business = Math.max(0, business - 4); } },
-    { title: "Defection in Ranks", description: "Several soldiers abandon their posts and join the rebellion.<br><br>description:<br>army -8", effect: () => { army = Math.max(0, army - 8); } },
-    { title: "Looted Caravan", description: "A supply caravan was intercepted by rebels.<br><br>description:<br>food -70<br>money -100", effect: () => { food -= 70; money -= 100; } },
-    { title: "Rebel Broadcast", description: "Messages of rebellion demoralize your people.<br><br>description:<br>happiness -8", effect: () => { happiness -= 8; } },
-    { title: "Guerrilla Attack", description: "Hit-and-run tactics cause confusion and fear.<br><br>description:<br>population -6<br>army -3", effect: () => { population -= 6; army = Math.max(0, army - 3); removeWorkers(6); } }
+    {
+      title: "Warehouse Plundered",
+      description:
+        "Angry rebels stormed the food stores.<br><br>description:<br>food -100<br>happiness -5",
+      effect: () => {
+        food -= 100;
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Weapons Stolen",
+      description:
+        "Rebels stole weapons from your armory.<br><br>description:<br>army -10<br>happiness -5",
+      effect: () => {
+        army = Math.max(0, army - 10);
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Castle Storm Attempt",
+      description:
+        "A rebellion tried to take the castle but failed.<br><br>description:<br>happiness -20",
+      effect: () => {
+        happiness -= 20;
+      },
+    },
+    {
+      title: "Tax Office Burned",
+      description:
+        "Rebels set fire to the local tax office.<br><br>description:<br>money -150",
+      effect: () => {
+        money -= 150;
+      },
+    },
+    {
+      title: "Rebel Propaganda",
+      description:
+        "Pamphlets and graffiti turn people against the leadership.<br><br>description:<br>happiness -10",
+      effect: () => {
+        happiness -= 10;
+      },
+    },
+    {
+      title: "Food Poisoning Scandal",
+      description:
+        "Rebels contaminated food to incite panic.<br><br>description:<br>food -50<br>population -5",
+      effect: () => {
+        food -= 50;
+        population -= 5;
+        removeWorkers(5);
+      },
+    },
+    {
+      title: "Rebel Leader Captured",
+      description:
+        "A rebel leader is caught and executed publicly.<br><br>description:<br>happiness +5",
+      effect: () => {
+        happiness += 5;
+      },
+    },
+    {
+      title: "Hidden Tunnel Found",
+      description:
+        "Rebels dug a tunnel to escape the city with resources.<br><br>description:<br>money -100",
+      effect: () => {
+        money -= 100;
+      },
+    },
+    {
+      title: "Militia Recruitment",
+      description:
+        "Civilians secretly trained by rebels rise up.<br><br>description:<br>army -15<br>happiness -10",
+      effect: () => {
+        army = Math.max(0, army - 15);
+        happiness -= 10;
+      },
+    },
+    {
+      title: "Rebel Riot",
+      description:
+        "A violent riot erupts in the town square.<br><br>description:<br>happiness -15<br>population -10",
+      effect: () => {
+        happiness -= 15;
+        population -= 10;
+        removeWorkers(10);
+      },
+    },
+    {
+      title: "Market Fire",
+      description:
+        "Arsonists set fire to the central market.<br><br>description:<br>business -3<br>happiness -5",
+      effect: () => {
+        business = Math.max(0, business - 3);
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Civil Sabotage",
+      description:
+        "City workers disrupt daily operations to protest.<br><br>description:<br>agriculture -2<br>business -2",
+      effect: () => {
+        agriculture = Math.max(0, agriculture - 2);
+        business = Math.max(0, business - 2);
+      },
+    },
+    {
+      title: "Water Wells Tainted",
+      description:
+        "Wells are poisoned in the outer districts.<br><br>description:<br>population -8<br>food -30",
+      effect: () => {
+        population -= 8;
+        food -= 30;
+        removeWorkers(8);
+      },
+    },
+    {
+      title: "Captured Officials",
+      description:
+        "Rebels kidnap and ransom local officials.<br><br>description:<br>money -200",
+      effect: () => {
+        money -= 200;
+      },
+    },
+    {
+      title: "Rural Uprising",
+      description:
+        "Farmers protest against food distribution policies.<br><br>description:<br>agriculture -5",
+      effect: () => {
+        agriculture = Math.max(0, agriculture - 5);
+      },
+    },
+    {
+      title: "Workshop Strike",
+      description:
+        "Craftsmen halt all production, demanding reforms.<br><br>description:<br>business -4",
+      effect: () => {
+        business = Math.max(0, business - 4);
+      },
+    },
+    {
+      title: "Defection in Ranks",
+      description:
+        "Several soldiers abandon their posts and join the rebellion.<br><br>description:<br>army -8",
+      effect: () => {
+        army = Math.max(0, army - 8);
+      },
+    },
+    {
+      title: "Looted Caravan",
+      description:
+        "A supply caravan was intercepted by rebels.<br><br>description:<br>food -70<br>money -100",
+      effect: () => {
+        food -= 70;
+        money -= 100;
+      },
+    },
+    {
+      title: "Rebel Broadcast",
+      description:
+        "Messages of rebellion demoralize your people.<br><br>description:<br>happiness -8",
+      effect: () => {
+        happiness -= 8;
+      },
+    },
+    {
+      title: "Guerrilla Attack",
+      description:
+        "Hit-and-run tactics cause confusion and fear.<br><br>description:<br>population -6<br>army -3",
+      effect: () => {
+        population -= 6;
+        army = Math.max(0, army - 3);
+        removeWorkers(6);
+      },
+    },
   ],
   diplomacy: [
-    { title: "Noble Visit", description: "A noble from a nearby region visits with lavish gifts.<br><br>descripition:<br>money + 300<br>happiness + 10", effect: () => { money += 300; happiness += 10; } },
-    { title: "Political Banquet", description: "A grand banquet is held for visiting dignitaries.<br><br>descripition:<br>happiness + 5<br>money - 100", effect: () => { happiness += 5; money -= 100; } },
-    { title: "Noble Dispute", description: "A heated argument with a visiting lord causes tension.<br><br>descripition:<br>happiness - 10", effect: () => { happiness -= 10; } },
-    { title: "Alliance Proposal", description: "A neighboring territory proposes an alliance.<br><br>descripition:<br>happiness + 8", effect: () => { happiness += 8; } },
-    { title: "Marriage Pact", description: "A political marriage strengthens your dynasty.<br><br>descripition:<br>happiness + 10", effect: () => { happiness += 10; } },
-    { title: "Border Dispute", description: "An argument over land leads to diplomatic unrest.<br><br>descripition:<br>happiness - 5", effect: () => { happiness -= 5; } },
-    { title: "Gift Exchange", description: "A formal gift exchange improves relationships.<br><br>descripition:<br>money - 50<br>happiness + 7", effect: () => { money -= 50; happiness += 7; } },
-    { title: "Foreign Envoy", description: "An envoy from distant lands brings exotic items.<br><br>descripition:<br>money + 150<br>happiness + 5", effect: () => { money += 150; happiness += 5; } },
-    { title: "Broken Agreement", description: "A neighbor breaks a previous treaty.<br><br>descripition:<br>happiness - 8", effect: () => { happiness -= 8; } },
-    { title: "Cultural Festival", description: "A joint festival boosts morale.<br><br>descripition:<br>happiness + 12<br>food - 50", effect: () => { happiness += 12; food -= 50; } },
-    { title: "Noble Demands Tribute", description: "A powerful noble demands payment to maintain peace.<br><br>descripition:<br>money - 200", effect: () => { money -= 200; } },
-    { title: "Joint Military Parade", description: "Shared display of military might strengthens image.<br><br>descripition:<br>happiness + 4<br>army + 5", effect: () => { happiness += 4; army += 5; } },
-    { title: "Envoy Insulted", description: "A foreign diplomat is unintentionally offended.<br><br>descripition:<br>happiness - 6", effect: () => { happiness -= 6; } },
-    { title: "Trade Agreement Signed", description: "A profitable deal is signed with another territory.<br><br>descripition:<br>money + 250", effect: () => { money += 250; } },
-    { title: "Tense Negotiations", description: "Talks nearly break down, but peace is maintained.<br><br>descripition:<br>happiness - 3", effect: () => { happiness -= 3; } },
-    { title: "Local Uprising Supported Abroad", description: "A rival territory is accused of aiding rebels.<br><br>descripition:<br>happiness - 10<br>money - 100", effect: () => { happiness -= 10; money -= 100; } },
-    { title: "Honor Duel", description: "A duel between nobles settles a dispute peacefully.<br><br>descripition:<br>happiness + 6", effect: () => { happiness += 6; } },
-    { title: "Visiting Scholar", description: "A famous scholar shares ideas with your court.<br><br>descripition:<br>happiness + 5", effect: () => { happiness += 5; } },
-    { title: "Diplomatic Gift Refused", description: "A rival rejects your offering, causing embarrassment.<br><br>descripition:<br>happiness - 5", effect: () => { happiness -= 5; } },
-    { title: "Royal Tour", description: "A member of your court travels abroad, improving relations.<br><br>descripition:<br>happiness + 5<br>money - 50", effect: () => { happiness += 5; money -= 50; } }
+    {
+      title: "Noble Visit",
+      description:
+        "A noble from a nearby region visits with lavish gifts.<br><br>descripition:<br>money + 300<br>happiness + 10",
+      effect: () => {
+        money += 300;
+        happiness += 10;
+      },
+    },
+    {
+      title: "Political Banquet",
+      description:
+        "A grand banquet is held for visiting dignitaries.<br><br>descripition:<br>happiness + 5<br>money - 100",
+      effect: () => {
+        happiness += 5;
+        money -= 100;
+      },
+    },
+    {
+      title: "Noble Dispute",
+      description:
+        "A heated argument with a visiting lord causes tension.<br><br>descripition:<br>happiness - 10",
+      effect: () => {
+        happiness -= 10;
+      },
+    },
+    {
+      title: "Alliance Proposal",
+      description:
+        "A neighboring territory proposes an alliance.<br><br>descripition:<br>happiness + 8",
+      effect: () => {
+        happiness += 8;
+      },
+    },
+    {
+      title: "Marriage Pact",
+      description:
+        "A political marriage strengthens your dynasty.<br><br>descripition:<br>happiness + 10",
+      effect: () => {
+        happiness += 10;
+      },
+    },
+    {
+      title: "Border Dispute",
+      description:
+        "An argument over land leads to diplomatic unrest.<br><br>descripition:<br>happiness - 5",
+      effect: () => {
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Gift Exchange",
+      description:
+        "A formal gift exchange improves relationships.<br><br>descripition:<br>money - 50<br>happiness + 7",
+      effect: () => {
+        money -= 50;
+        happiness += 7;
+      },
+    },
+    {
+      title: "Foreign Envoy",
+      description:
+        "An envoy from distant lands brings exotic items.<br><br>descripition:<br>money + 150<br>happiness + 5",
+      effect: () => {
+        money += 150;
+        happiness += 5;
+      },
+    },
+    {
+      title: "Broken Agreement",
+      description:
+        "A neighbor breaks a previous treaty.<br><br>descripition:<br>happiness - 8",
+      effect: () => {
+        happiness -= 8;
+      },
+    },
+    {
+      title: "Cultural Festival",
+      description:
+        "A joint festival boosts morale.<br><br>descripition:<br>happiness + 12<br>food - 50",
+      effect: () => {
+        happiness += 12;
+        food -= 50;
+      },
+    },
+    {
+      title: "Noble Demands Tribute",
+      description:
+        "A powerful noble demands payment to maintain peace.<br><br>descripition:<br>money - 200",
+      effect: () => {
+        money -= 200;
+      },
+    },
+    {
+      title: "Joint Military Parade",
+      description:
+        "Shared display of military might strengthens image.<br><br>descripition:<br>happiness + 4<br>army + 5",
+      effect: () => {
+        happiness += 4;
+        army += 5;
+      },
+    },
+    {
+      title: "Envoy Insulted",
+      description:
+        "A foreign diplomat is unintentionally offended.<br><br>descripition:<br>happiness - 6",
+      effect: () => {
+        happiness -= 6;
+      },
+    },
+    {
+      title: "Trade Agreement Signed",
+      description:
+        "A profitable deal is signed with another territory.<br><br>descripition:<br>money + 250",
+      effect: () => {
+        money += 250;
+      },
+    },
+    {
+      title: "Tense Negotiations",
+      description:
+        "Talks nearly break down, but peace is maintained.<br><br>descripition:<br>happiness - 3",
+      effect: () => {
+        happiness -= 3;
+      },
+    },
+    {
+      title: "Local Uprising Supported Abroad",
+      description:
+        "A rival territory is accused of aiding rebels.<br><br>descripition:<br>happiness - 10<br>money - 100",
+      effect: () => {
+        happiness -= 10;
+        money -= 100;
+      },
+    },
+    {
+      title: "Honor Duel",
+      description:
+        "A duel between nobles settles a dispute peacefully.<br><br>descripition:<br>happiness + 6",
+      effect: () => {
+        happiness += 6;
+      },
+    },
+    {
+      title: "Visiting Scholar",
+      description:
+        "A famous scholar shares ideas with your court.<br><br>descripition:<br>happiness + 5",
+      effect: () => {
+        happiness += 5;
+      },
+    },
+    {
+      title: "Diplomatic Gift Refused",
+      description:
+        "A rival rejects your offering, causing embarrassment.<br><br>descripition:<br>happiness - 5",
+      effect: () => {
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Royal Tour",
+      description:
+        "A member of your court travels abroad, improving relations.<br><br>descripition:<br>happiness + 5<br>money - 50",
+      effect: () => {
+        happiness += 5;
+        money -= 50;
+      },
+    },
   ],
   trade: [
-    { title: "Pirate Raid", description: "Pirates attacked and plundered a merchant ship.<br><br>descripition:<br>money - 300", effect: () => { money -= 300; } },
-    { title: "Bad Harvest", description: "The season's crops were poor due to bad weather.<br><br>descripition:<br>food - 200", effect: () => { food -= 200; } },
-    { title: "Lucky Fishing", description: "A huge catch increases food supply and morale.<br><br>descripition:<br>food + 150<br>happiness + 5", effect: () => { food += 150; happiness += 5; } },
-    { title: "Mining Boom", description: "You struck a rich vein of ore in your mines.<br><br>descripition:<br>money + 400", effect: () => { money += 400; } },
-    { title: "Silk Caravan Arrives", description: "A caravan delivers luxury goods for high profit.<br><br>descripition:<br>money + 250", effect: () => { money += 250; } },
-    { title: "Merchant Guild Tax", description: "The merchant guild imposes an unexpected tax.<br><br>descripition:<br>money - 150", effect: () => { money -= 150; } },
-    { title: "Trade Route Established", description: "A new route opens, increasing commerce.<br><br>descripition:<br>business + 5<br>money + 100", effect: () => { business += 5; money += 100; } },
-    { title: "Fire in the Market District", description: "A fire damages shops and stalls.<br><br>descripition:<br>business - 5<br>money - 50", effect: () => { business = Math.max(0, business - 5); money -= 50; } },
-    { title: "Salt Trade Surge", description: "Demand for salt skyrockets.<br><br>descripition:<br>money + 200", effect: () => { money += 200; } },
-    { title: "Foreign Currency Fluctuates", description: "Market instability affects prices.<br><br>descripition:<br>money - 100", effect: () => { money -= 100; } },
-    { title: "Exotic Trader", description: "A foreign merchant brings rare items.<br><br>descripition:<br>money - 100<br>happiness + 5", effect: () => { money -= 100; happiness += 5; } },
-    { title: "Flooded Fields", description: "Heavy rains destroyed farmland.<br><br>descripition:<br>food - 150<br>agriculture - 3", effect: () => { food -= 150; agriculture = Math.max(0, agriculture - 3); } },
-    { title: "Black Market Activity", description: "Illegal trade rises under your nose.<br><br>descripition:<br>money + 100<br>happiness - 5", effect: () => { money += 100; happiness -= 5; } },
-    { title: "Harvest Festival Trade", description: "The festival boosts local sales.<br><br>descripition:<br>money + 120<br>happiness + 5", effect: () => { money += 120; happiness += 5; } },
-    { title: "Fishing Boat Lost", description: "A storm sank a large fishing vessel.<br><br>descripition:<br>food - 100", effect: () => { food -= 100; } },
-    { title: "Smuggling Ring Uncovered", description: "Authorities seize contraband.<br><br>descripition:<br>money + 150", effect: () => { money += 150; } },
-    { title: "Export Ban Lifted", description: "Trade restrictions are lifted, aiding commerce.<br><br>descripition:<br>money + 200<br>business + 2", effect: () => { money += 200; business += 2; } },
-    { title: "Foreign Traders Embargo", description: "An embargo limits goods entering the region.<br><br>descripition:<br>money - 200", effect: () => { money -= 200; } },
-    { title: "Prosperous Rice Trade", description: "A bumper rice crop sells well abroad.<br><br>descripition:<br>food - 100<br>money + 300", effect: () => { food -= 100; money += 300; } },
-    { title: "Jewels Discovered", description: "Miners uncover a stash of gems.<br><br>descripition:<br>money + 500<br>happiness + 10", effect: () => { money += 500; happiness += 10; } }
+    {
+      title: "Pirate Raid",
+      description:
+        "Pirates attacked and plundered a merchant ship.<br><br>descripition:<br>money - 300",
+      effect: () => {
+        money -= 300;
+      },
+    },
+    {
+      title: "Bad Harvest",
+      description:
+        "The season's crops were poor due to bad weather.<br><br>descripition:<br>food - 200",
+      effect: () => {
+        food -= 200;
+      },
+    },
+    {
+      title: "Lucky Fishing",
+      description:
+        "A huge catch increases food supply and morale.<br><br>descripition:<br>food + 150<br>happiness + 5",
+      effect: () => {
+        food += 150;
+        happiness += 5;
+      },
+    },
+    {
+      title: "Mining Boom",
+      description:
+        "You struck a rich vein of ore in your mines.<br><br>descripition:<br>money + 400",
+      effect: () => {
+        money += 400;
+      },
+    },
+    {
+      title: "Silk Caravan Arrives",
+      description:
+        "A caravan delivers luxury goods for high profit.<br><br>descripition:<br>money + 250",
+      effect: () => {
+        money += 250;
+      },
+    },
+    {
+      title: "Merchant Guild Tax",
+      description:
+        "The merchant guild imposes an unexpected tax.<br><br>descripition:<br>money - 150",
+      effect: () => {
+        money -= 150;
+      },
+    },
+    {
+      title: "Trade Route Established",
+      description:
+        "A new route opens, increasing commerce.<br><br>descripition:<br>business + 5<br>money + 100",
+      effect: () => {
+        business += 5;
+        money += 100;
+      },
+    },
+    {
+      title: "Fire in the Market District",
+      description:
+        "A fire damages shops and stalls.<br><br>descripition:<br>business - 5<br>money - 50",
+      effect: () => {
+        business = Math.max(0, business - 5);
+        money -= 50;
+      },
+    },
+    {
+      title: "Salt Trade Surge",
+      description:
+        "Demand for salt skyrockets.<br><br>descripition:<br>money + 200",
+      effect: () => {
+        money += 200;
+      },
+    },
+    {
+      title: "Foreign Currency Fluctuates",
+      description:
+        "Market instability affects prices.<br><br>descripition:<br>money - 100",
+      effect: () => {
+        money -= 100;
+      },
+    },
+    {
+      title: "Exotic Trader",
+      description:
+        "A foreign merchant brings rare items.<br><br>descripition:<br>money - 100<br>happiness + 5",
+      effect: () => {
+        money -= 100;
+        happiness += 5;
+      },
+    },
+    {
+      title: "Flooded Fields",
+      description:
+        "Heavy rains destroyed farmland.<br><br>descripition:<br>food - 150<br>agriculture - 3",
+      effect: () => {
+        food -= 150;
+        agriculture = Math.max(0, agriculture - 3);
+      },
+    },
+    {
+      title: "Black Market Activity",
+      description:
+        "Illegal trade rises under your nose.<br><br>descripition:<br>money + 100<br>happiness - 5",
+      effect: () => {
+        money += 100;
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Harvest Festival Trade",
+      description:
+        "The festival boosts local sales.<br><br>descripition:<br>money + 120<br>happiness + 5",
+      effect: () => {
+        money += 120;
+        happiness += 5;
+      },
+    },
+    {
+      title: "Fishing Boat Lost",
+      description:
+        "A storm sank a large fishing vessel.<br><br>descripition:<br>food - 100",
+      effect: () => {
+        food -= 100;
+      },
+    },
+    {
+      title: "Smuggling Ring Uncovered",
+      description:
+        "Authorities seize contraband.<br><br>descripition:<br>money + 150",
+      effect: () => {
+        money += 150;
+      },
+    },
+    {
+      title: "Export Ban Lifted",
+      description:
+        "Trade restrictions are lifted, aiding commerce.<br><br>descripition:<br>money + 200<br>business + 2",
+      effect: () => {
+        money += 200;
+        business += 2;
+      },
+    },
+    {
+      title: "Foreign Traders Embargo",
+      description:
+        "An embargo limits goods entering the region.<br><br>descripition:<br>money - 200",
+      effect: () => {
+        money -= 200;
+      },
+    },
+    {
+      title: "Prosperous Rice Trade",
+      description:
+        "A bumper rice crop sells well abroad.<br><br>descripition:<br>food - 100<br>money + 300",
+      effect: () => {
+        food -= 100;
+        money += 300;
+      },
+    },
+    {
+      title: "Jewels Discovered",
+      description:
+        "Miners uncover a stash of gems.<br><br>descripition:<br>money + 500<br>happiness + 10",
+      effect: () => {
+        money += 500;
+        happiness += 10;
+      },
+    },
   ],
   alert: [
-    { title: "Yokai Sighting", description: "A strange creature was seen near the forest edge.<br><br>descripition:<br>happiness - 10", effect: () => { happiness -= 10; } },
-    { title: "Ancient Ruins Discovered", description: "An expedition finds mysterious ruins nearby.<br><br>descripition:<br>money + 100", effect: () => { money += 100; } },
-    { title: "Bandit Camp Spotted", description: "Scouts report a bandit hideout forming near the border.<br><br>descripition:<br>happiness - 5", effect: () => { happiness -= 5; } },
-    { title: "Villagers Disappear", description: "Several villagers vanished near the mountains.<br><br>descripition:<br>population - 10<br>removeWorkers(10)", effect: () => { population -= 10; removeWorkers(10); } },
-    { title: "Meteor Strike", description: "A meteor crashes nearby, causing panic.<br><br>descripition:<br>happiness - 8", effect: () => { happiness -= 8; } },
-    { title: "Mysterious Fog", description: "A dense fog blankets the region. Farmers refuse to work.<br><br>descripition:<br>agriculture - 3", effect: () => { agriculture = Math.max(0, agriculture - 3); } },
-    { title: "Wailing Heard at Night", description: "Citizens report ghostly wailing after sunset.<br><br>descripition:<br>happiness - 6", effect: () => { happiness -= 6; } },
-    { title: "Wandering Beast Tracks", description: "Massive claw marks are found near the outer farms.<br><br>descripition:<br>food - 50", effect: () => { food -= 50; } },
-    { title: "Cult Activity Suspected", description: "Suspicious gatherings spark rumors of heresy.<br><br>descripition:<br>happiness - 10", effect: () => { happiness -= 10; } },
-    { title: "Abandoned Village Nearby", description: "A nearby village lies eerily empty.<br><br>descripition:<br>food + 50<br>happiness - 5", effect: () => { food += 50; happiness -= 5; } },
-    { title: "Distant Drums", description: "Drums are heard echoing from the forest at night.<br><br>descripition:<br>happiness - 5", effect: () => { happiness -= 5; } },
-    { title: "Unknown Illness", description: "A strange sickness spreads from a nearby settlement.<br><br>descripition:<br>population - 5<br>happiness - 5<br>removeWorkers(5)", effect: () => { population -= 5; happiness -= 5; removeWorkers(5); } },
-    { title: "Monster Skeleton Found", description: "Giant bones unearthed by farmers intrigue the people.<br><br>descripition:<br>happiness + 5", effect: () => { happiness += 5; } },
-    { title: "Military Movements", description: "Troop activity near the border stirs concern.<br><br>descripition:<br>happiness - 7", effect: () => { happiness -= 7; } },
-    { title: "Spiritual Pilgrims Arrive", description: "Monks claim a vision led them to nearby hills.<br><br>descripition:<br>happiness + 6", effect: () => { happiness += 6; } },
-    { title: "Collapsed Cave Entrance", description: "A cave-in reveals glinting ores inside.<br><br>descripition:<br>money + 200", effect: () => { money += 200; } },
-    { title: "Old Battlefield Unearthed", description: "Remains of an ancient battle uncovered during plowing.<br><br>descripition:<br>happiness + 2<br>army + 5", effect: () => { happiness += 2; army += 5; } },
-    { title: "Beast Howls", description: "Howls echo in the night, livestock is restless.<br><br>descripition:<br>food - 30", effect: () => { food -= 30; } },
-    { title: "Shrine Appears Overnight", description: "A mysterious shrine is found fully formed by morning.<br><br>descripition:<br>happiness + 10", effect: () => { happiness += 10; } },
-    { title: "Seismic Tremor", description: "A light earthquake shakes buildings.<br><br>descripition:<br>infrastructure - 5", effect: () => { infrastructure = Math.max(0, infrastructure - 5); } }
-  ]
+    {
+      title: "Yokai Sighting",
+      description:
+        "A strange creature was seen near the forest edge.<br><br>descripition:<br>happiness - 10",
+      effect: () => {
+        happiness -= 10;
+      },
+    },
+    {
+      title: "Ancient Ruins Discovered",
+      description:
+        "An expedition finds mysterious ruins nearby.<br><br>descripition:<br>money + 100",
+      effect: () => {
+        money += 100;
+      },
+    },
+    {
+      title: "Bandit Camp Spotted",
+      description:
+        "Scouts report a bandit hideout forming near the border.<br><br>descripition:<br>happiness - 5",
+      effect: () => {
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Villagers Disappear",
+      description:
+        "Several villagers vanished near the mountains.<br><br>descripition:<br>population - 10<br>removeWorkers(10)",
+      effect: () => {
+        population -= 10;
+        removeWorkers(10);
+      },
+    },
+    {
+      title: "Meteor Strike",
+      description:
+        "A meteor crashes nearby, causing panic.<br><br>descripition:<br>happiness - 8",
+      effect: () => {
+        happiness -= 8;
+      },
+    },
+    {
+      title: "Mysterious Fog",
+      description:
+        "A dense fog blankets the region. Farmers refuse to work.<br><br>descripition:<br>agriculture - 3",
+      effect: () => {
+        agriculture = Math.max(0, agriculture - 3);
+      },
+    },
+    {
+      title: "Wailing Heard at Night",
+      description:
+        "Citizens report ghostly wailing after sunset.<br><br>descripition:<br>happiness - 6",
+      effect: () => {
+        happiness -= 6;
+      },
+    },
+    {
+      title: "Wandering Beast Tracks",
+      description:
+        "Massive claw marks are found near the outer farms.<br><br>descripition:<br>food - 50",
+      effect: () => {
+        food -= 50;
+      },
+    },
+    {
+      title: "Cult Activity Suspected",
+      description:
+        "Suspicious gatherings spark rumors of heresy.<br><br>descripition:<br>happiness - 10",
+      effect: () => {
+        happiness -= 10;
+      },
+    },
+    {
+      title: "Abandoned Village Nearby",
+      description:
+        "A nearby village lies eerily empty.<br><br>descripition:<br>food + 50<br>happiness - 5",
+      effect: () => {
+        food += 50;
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Distant Drums",
+      description:
+        "Drums are heard echoing from the forest at night.<br><br>descripition:<br>happiness - 5",
+      effect: () => {
+        happiness -= 5;
+      },
+    },
+    {
+      title: "Unknown Illness",
+      description:
+        "A strange sickness spreads from a nearby settlement.<br><br>descripition:<br>population - 5<br>happiness - 5<br>removeWorkers(5)",
+      effect: () => {
+        population -= 5;
+        happiness -= 5;
+        removeWorkers(5);
+      },
+    },
+    {
+      title: "Monster Skeleton Found",
+      description:
+        "Giant bones unearthed by farmers intrigue the people.<br><br>descripition:<br>happiness + 5",
+      effect: () => {
+        happiness += 5;
+      },
+    },
+    {
+      title: "Military Movements",
+      description:
+        "Troop activity near the border stirs concern.<br><br>descripition:<br>happiness - 7",
+      effect: () => {
+        happiness -= 7;
+      },
+    },
+    {
+      title: "Spiritual Pilgrims Arrive",
+      description:
+        "Monks claim a vision led them to nearby hills.<br><br>descripition:<br>happiness + 6",
+      effect: () => {
+        happiness += 6;
+      },
+    },
+    {
+      title: "Collapsed Cave Entrance",
+      description:
+        "A cave-in reveals glinting ores inside.<br><br>descripition:<br>money + 200",
+      effect: () => {
+        money += 200;
+      },
+    },
+    {
+      title: "Old Battlefield Unearthed",
+      description:
+        "Remains of an ancient battle uncovered during plowing.<br><br>descripition:<br>happiness + 2<br>army + 5",
+      effect: () => {
+        happiness += 2;
+        army += 5;
+      },
+    },
+    {
+      title: "Beast Howls",
+      description:
+        "Howls echo in the night, livestock is restless.<br><br>descripition:<br>food - 30",
+      effect: () => {
+        food -= 30;
+      },
+    },
+    {
+      title: "Shrine Appears Overnight",
+      description:
+        "A mysterious shrine is found fully formed by morning.<br><br>descripition:<br>happiness + 10",
+      effect: () => {
+        happiness += 10;
+      },
+    },
+    {
+      title: "Seismic Tremor",
+      description:
+        "A light earthquake shakes buildings.<br><br>descripition:<br>infrastructure - 5",
+      effect: () => {
+        infrastructure = Math.max(0, infrastructure - 5);
+      },
+    },
+  ],
 };
 
 let eventModifiers = {
-  food: 0, army: 0, happiness: 0, population: 0,
-  agriculture: 0, money: 0, infrastructure: 0, business: 0
+  food: 0,
+  army: 0,
+  happiness: 0,
+  population: 0,
+  agriculture: 0,
+  money: 0,
+  infrastructure: 0,
+  business: 0,
 };
 
 function aplicarEventosAleatorios() {
@@ -943,8 +2186,14 @@ function aplicarEventosAleatorios() {
     const event = events[Math.floor(Math.random() * events.length)];
 
     const oldState = {
-      food, army, happiness, population,
-      agriculture, money, infrastructure, business
+      food,
+      army,
+      happiness,
+      population,
+      agriculture,
+      money,
+      infrastructure,
+      business,
     };
 
     event.effect();
@@ -966,8 +2215,9 @@ function aplicarEventosAleatorios() {
   });
 }
 
-document.getElementById("Random_events").addEventListener("click", aplicarEventosAleatorios);
-
+document
+  .getElementById("Random_events")
+  .addEventListener("click", aplicarEventosAleatorios);
 
 document.getElementById("Pass_turn").addEventListener("click", () => {
   let food = parseInt(document.getElementById("Food").value) || 0;
@@ -976,7 +2226,8 @@ document.getElementById("Pass_turn").addEventListener("click", () => {
   let population = parseInt(document.getElementById("Population").value) || 0;
   let agriculture = parseInt(document.getElementById("Agriculture").value) || 0;
   let money = parseInt(document.getElementById("Money").value) || 0;
-  let infrastructure = parseInt(document.getElementById("Infrastructure").value) || 0;
+  let infrastructure =
+    parseInt(document.getElementById("Infrastructure").value) || 0;
   let business = parseInt(document.getElementById("Business").value) || 0;
 
   let unemployed = 0;
@@ -984,7 +2235,6 @@ document.getElementById("Pass_turn").addEventListener("click", () => {
   let happinessChange = 0;
   let moneyChange = 0;
   let populationChange = 0;
-
 
   foodChange -= population;
   foodChange += agriculture * 3;
@@ -1020,10 +2270,12 @@ document.getElementById("Pass_turn").addEventListener("click", () => {
   eventModifiers.infrastructure += parseInt(inputs[6].value) || 0;
   eventModifiers.business += parseInt(inputs[7].value) || 0;
 
-
   food += foodChange + eventModifiers.food;
   money += moneyChange + eventModifiers.money;
-  happiness = Math.max(0, Math.min(100, happiness + happinessChange + eventModifiers.happiness));
+  happiness = Math.max(
+    0,
+    Math.min(100, happiness + happinessChange + eventModifiers.happiness)
+  );
   population += populationChange + eventModifiers.population;
   army += eventModifiers.army;
   agriculture += eventModifiers.agriculture;
@@ -1056,7 +2308,9 @@ document.getElementById("Pass_turn").addEventListener("click", () => {
 Unemployed: ${unemployed}
 `);
 
-  document.querySelectorAll("#Event_effect input").forEach(input => input.value = "");
+  document
+    .querySelectorAll("#Event_effect input")
+    .forEach((input) => (input.value = ""));
 
   eventModifiers = {
     food: 0,
@@ -1066,12 +2320,11 @@ Unemployed: ${unemployed}
     agriculture: 0,
     money: 0,
     infrastructure: 0,
-    business: 0
+    business: 0,
   };
 });
 
-
-//Big_NPCs
+//big-npcs
 const clanData = {
   Oda: {
     description: `<h2>Clan description</h2> <br> 
@@ -1107,7 +2360,7 @@ Bird-like yokai linked to wind, mountains, and martial arts.  <br>
 - **Niwa (Nagahide)** <br> 
 – Hō-ō. Tactician with morale-boosting light magic.  <br> <br> 
 - **Ikeda (Tsuneoki)** <br> 
-– Raijū. Thunder warrior who strikes like a storm.`
+– Raijū. Thunder warrior who strikes like a storm.`,
   },
 
   Tokugawa: {
@@ -1129,7 +2382,7 @@ Yokai turtle of longevity and spiritual defense.  <br>
     vassals: `<h2>Vassals</h2> <br>
     - **Honda (Tadakatsu)** <br> 
     – Niō. Wrathful Paladin with divine protection.  <br> 
-Super strength, divine aura, and unstoppable spear-user.`
+Super strength, divine aura, and unstoppable spear-user.`,
   },
 
   Imagawa: {
@@ -1152,7 +2405,7 @@ Giant ocean yokai that drown and curse.  <br>
 – Mist Priestess. Wife of Ieyasu, uses mist for concealment.`,
     vassals: `<h2>Vassals</h2> <br>
     - **Okabe (Motonobu)** <br> 
-    – Nue. Soul Hunter with poisonous aura, illusions, and shape-shifting terror.`
+    – Nue. Soul Hunter with poisonous aura, illusions, and shape-shifting terror.`,
   },
 
   Saito: {
@@ -1179,7 +2432,7 @@ Red demons of rage and destruction.  <br>
     - **Akeshi (Mitsuhide)** <br> 
     – Tsukumogami Blade. Spirit Duelist with living sword.  <br> <br> 
 - **Hanbei (Takenaka)** <br> 
-– Karakasa-obake. Illusionist Tactician with weather control.`
+– Karakasa-obake. Illusionist Tactician with weather control.`,
   },
 
   Ashikaga: {
@@ -1201,7 +2454,7 @@ Spider deity of subtlety and fate-weaving.  <br>
 - **Ashikaga Yoshiaki** <br> 
 – Web Oracle. Future schemer allied to spirits.`,
     vassals: `<h2>Vassals</h2> <br>
-    Symbolic nobles with weakened loyalty; most real vassals lost.`
+    Symbolic nobles with weakened loyalty; most real vassals lost.`,
   },
 
   Kitabatake: {
@@ -1225,7 +2478,7 @@ Forest spirits of balance and protection.  <br>
 - **Harumoto** <br> 
 – Earth High Priest. Ritual leader with deep yokai ties.`,
     vassals: `<h2>Vassals</h2> <br>
-    Faith-based allies and shrine guardians.`
+    Faith-based allies and shrine guardians.`,
   },
 
   Rokkaku: {
@@ -1249,7 +2502,7 @@ Hawk gods of the sky and precision.  <br>
 - **Soen** <br> 
 – Spirit Shaman. Hunter of corrupted spirits, quiet prophet.`,
     vassals: `<h2>Vassals</h2> <br>
-    Insurgent clans and air-based troops.`
+    Insurgent clans and air-based troops.`,
   },
 
   Miyoshi: {
@@ -1274,8 +2527,8 @@ Serpent yokai of multiple heads and corruption.  <br>
 - **Yoshitsugu** <br> 
 – Sneaky Duelist. Agile commander with poison blade.`,
     vassals: `<h2>Vassals</h2> <br>
-    Assassins, corrupt priests, and bureaucrats of the “Serpent Court”.`
-  }
+    Assassins, corrupt priests, and bureaucrats of the “Serpent Court”.`,
+  },
 };
 
 function loadClanData(clanName) {
@@ -1291,16 +2544,12 @@ function loadClanData(clanName) {
   document.querySelector(".Target_clan").textContent = `${clanName}`;
 }
 
-document.querySelectorAll("#NPCs_Clas_name p").forEach(p => {
+document.querySelectorAll("#NPCs_Clas_name p").forEach((p) => {
   p.addEventListener("click", () => {
     const clanName = p.textContent.trim();
     loadClanData(clanName);
   });
 });
-
-
-
-
 
 //War Sistem - Moral
 const moraleDescriptions = {
@@ -1313,7 +2562,7 @@ const moraleDescriptions = {
   7: `Good Morale<br>Description: Confidence begins to spread. Victory seems possible.<br>Effects:<br>+1 to saving throws or initiative.<br>Mages launch coordinated offensives.<br>Troops follow orders zealously.`,
   8: `High Morale<br>Description: Spirit of victory. Everyone is aligned and motivated.<br>Effects:<br>Troops advance with courage.<br>Mages use powerful spells without fear.<br>Can attract allies, reinforcements or inspire other armies.<br>Enemies begin to retreat (enemy morale test).`,
   9: `Inspired Morale<br>Description: The army is seen as invincible. Contagious morale.<br>Effects:<br>Advantage on morale and strategy tests.<br>Mages activate grand rituals and epic offensive spells.<br>Reinforcements appear spontaneously or distant allies unite.`,
-  10: `Glorious Victory<br>Description: The army has triumphed! Ready to meet the general or complete the objective.<br>Effects:<br>Enemies surrender or flee.<br>Commanders are praised; leaders gain influence.<br>Morale does not drop for 1 day, even with minor negative events.<br>Can unlock special events or narrative rewards.`
+  10: `Glorious Victory<br>Description: The army has triumphed! Ready to meet the general or complete the objective.<br>Effects:<br>Enemies surrender or flee.<br>Commanders are praised; leaders gain influence.<br>Morale does not drop for 1 day, even with minor negative events.<br>Can unlock special events or narrative rewards.`,
 };
 
 function updateDescription(value) {
@@ -1325,10 +2574,10 @@ function updateDescription(value) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  const inputMoral = document.getElementById('moral');
+document.addEventListener("DOMContentLoaded", function () {
+  const inputMoral = document.getElementById("moral");
 
-  inputMoral.addEventListener('input', function () {
+  inputMoral.addEventListener("input", function () {
     const value = parseInt(this.value);
     if (!isNaN(value)) {
       updateDescription(value);
@@ -1337,8 +2586,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   updateDescription(parseInt(inputMoral.value));
 });
-
-
 
 //War Sistem - Events
 const warEventDescriptions = {
@@ -1362,7 +2609,7 @@ const warEventDescriptions = {
     17: `Allies Take Objective: Allied troops take over an important point (tower, gate, hill), giving them a tactical advantage.`,
     18: `Enemies Conquer Objective: Enemies take a vital point — the situation gets complicated. Group morale is shaken.`,
     19: `Blessing of a Local Kami: A Kami favors the group for their past actions (healing, bonuses, protective aura for turns).`,
-    20: `Morale Explosion and Local Victory: Group troops have a sudden victory that inspires everyone. Bonus on tests for a while (strength, faith, aura, etc.).`
+    20: `Morale Explosion and Local Victory: Group troops have a sudden victory that inspires everyone. Bonus on tests for a while (strength, faith, aura, etc.).`,
   },
 
   Trip: {
@@ -1388,7 +2635,7 @@ const warEventDescriptions = {
     17: `<strong>NATURAL AND SUPERNATURAL EVENTS</strong><br><u>Terrain or Wild Magic Trap</u><br>– Uncontrolled magic, cursed field, illusory well.<br>– May affect the party or surroundings for a time.`,
     18: `<strong>NATURAL AND SUPERNATURAL EVENTS</strong><br><u>Supernatural/Spiritual Event</u><br>– Vision, whispers, apparitions, entities.<br>– May be a warning, reward, or curse.`,
     19: `<strong>NATURAL AND SUPERNATURAL EVENTS</strong><br><u>Encounter with Non-Hostile Creatures</u><br>– Faeries, spirits, magical animals, or natural guardians.<br>– Interactions may grant blessings, curses, or knowledge.`,
-    20: `<strong>NATURAL AND SUPERNATURAL EVENTS</strong><br><u>Crime Scene/Abandoned Body</u><br>– Site of recent combat, destroyed camp, corpse with clues.<br>– May lead to another quest, trap, or clue to a greater threat.`
+    20: `<strong>NATURAL AND SUPERNATURAL EVENTS</strong><br><u>Crime Scene/Abandoned Body</u><br>– Site of recent combat, destroyed camp, corpse with clues.<br>– May lead to another quest, trap, or clue to a greater threat.`,
   },
 
   Place: {
@@ -1411,8 +2658,8 @@ const warEventDescriptions = {
     17: `A fugitive noble couple seeks shelter from the group—they are being pursued by assassins or demons in disguise.`,
     18: `A spiritual disease begins to spread—cure requires a ritual, or exorcism by an infiltrated Yokai.`,
     19: `A traveling theater group arrives, but the actors are not what they seem—Yokai, disguised Oni, or spies?`,
-    20: `An unusual celestial event (blue moon, eclipse) occurs—spirits emerge and reveal something hidden or begin a hunt.`
-  }
+    20: `An unusual celestial event (blue moon, eclipse) occurs—spirits emerge and reveal something hidden or begin a hunt.`,
+  },
 };
 
 function updateWarDescription(value) {
@@ -1447,306 +2694,305 @@ document.addEventListener("DOMContentLoaded", function () {
   updateWarDescription(parseInt(input.value));
 });
 
-
 //War Sitem - Karma
 const karmaEventDescriptions = {
   Social_Meetings: [
     {
       range: [-100, -91],
-      text: `– Hostile NPCs or preemptive ambushes.<br>– Shrines, patrols and merchants avoid, curse or denounce.`
+      text: `– Hostile NPCs or preemptive ambushes.<br>– Shrines, patrols and merchants avoid, curse or denounce.`,
     },
     {
       range: [-90, -71],
-      text: `– Negative rumors cause nervous or violent reactions.<br>– Yokai and shadowy figures approach to manipulate or use the character.`
+      text: `– Negative rumors cause nervous or violent reactions.<br>– Yokai and shadowy figures approach to manipulate or use the character.`,
     },
     {
       range: [-70, -51],
-      text: `– Guards observe or follow discreetly, possible blackmail.<br>– Merchants demand absurd prices or refuse to sell.`
+      text: `– Guards observe or follow discreetly, possible blackmail.<br>– Merchants demand absurd prices or refuse to sell.`,
     },
     {
       range: [-50, -31],
-      text: `– Social tests with increased difficulty; cold or evasive answers.<br>– Help denied by travelers and religious people prevent approach.`
+      text: `– Social tests with increased difficulty; cold or evasive answers.<br>– Help denied by travelers and religious people prevent approach.`,
     },
     {
       range: [-30, -11],
-      text: `– Uncomfortable NPCs, charging too much or refusing services.<br>– Trade exchanges made quickly and with ill will.`
+      text: `– Uncomfortable NPCs, charging too much or refusing services.<br>– Trade exchanges made quickly and with ill will.`,
     },
     {
       range: [-10, 0],
-      text: `– Variable reactions: curiosity, distrust or respectful distance.<br>– Some NPCs offer help if morally tested first.`
+      text: `– Variable reactions: curiosity, distrust or respectful distance.<br>– Some NPCs offer help if morally tested first.`,
     },
     {
       range: [1, 10],
-      text: `– Direct but impersonal interactions. Conversations require strong arguments.<br>– Normal social tests, without spontaneous help.`
+      text: `– Direct but impersonal interactions. Conversations require strong arguments.<br>– Normal social tests, without spontaneous help.`,
     },
     {
       range: [11, 30],
-      text: `– NPCs open to dialogue, listen to the character attentively.<br>– Receive useful information, tips or occasional help without charge.`
+      text: `– NPCs open to dialogue, listen to the character attentively.<br>– Receive useful information, tips or occasional help without charge.`,
     },
     {
       range: [31, 50],
-      text: `– Merchants offer discounts or show rare items.<br>– Benevolent or mysterious Yokai appear with curiosity.`
+      text: `– Merchants offer discounts or show rare items.<br>– Benevolent or mysterious Yokai appear with curiosity.`,
     },
     {
       range: [51, 70],
-      text: `– Priests and travelers offer blessings, cures or advice.<br>– NPCs ask for company or protection in exchange for favors.`
+      text: `– Priests and travelers offer blessings, cures or advice.<br>– NPCs ask for company or protection in exchange for favors.`,
     },
     {
       range: [71, 90],
-      text: `– Guards and leaders listen to the character before acting.<br>– NPCs volunteer to help with missions or bring resources.`
+      text: `– Guards and leaders listen to the character before acting.<br>– NPCs volunteer to help with missions or bring resources.`,
     },
     {
       range: [91, 100],
-      text: `– Unexpected encounters with NPCs who admire past achievements.<br>– Receive gifts, access to secret paths or personal prophecies.`
-    }
+      text: `– Unexpected encounters with NPCs who admire past achievements.<br>– Receive gifts, access to secret paths or personal prophecies.`,
+    },
   ],
 
   Hostile_Encounters: [
     {
       range: [-100, -91],
-      text: `– Enemies recognize you and attack you with hatred or sadistic pleasure.<br>– A bounty on your head may attract more attackers.`
+      text: `– Enemies recognize you and attack you with hatred or sadistic pleasure.<br>– A bounty on your head may attract more attackers.`,
     },
     {
       range: [-90, -71],
-      text: `– Encounters turn into violent pursuits, even from a distance.<br>– Creatures or bandits try to capture you alive for revenge or torture.`
+      text: `– Encounters turn into violent pursuits, even from a distance.<br>– Creatures or bandits try to capture you alive for revenge or torture.`,
     },
     {
       range: [-70, -51],
-      text: `– Enemies come prepared with ambushes or traps.<br>– Leaders among the hostiles want to use the character as an example.`
+      text: `– Enemies come prepared with ambushes or traps.<br>– Leaders among the hostiles want to use the character as an example.`,
     },
     {
       range: [-50, -31],
-      text: `– Chances for dialogue are almost zero; threats or provocations are common.<br>– Some attack out of fear, as if it were an inevitable threat.`
+      text: `– Chances for dialogue are almost zero; threats or provocations are common.<br>– Some attack out of fear, as if it were an inevitable threat.`,
     },
     {
       range: [-30, -11],
-      text: `– Hostiles surround you before attacking, with mockery or intimidation.<br>– Enemies hesitate, but act with distrust and restrained violence.`
+      text: `– Hostiles surround you before attacking, with mockery or intimidation.<br>– Enemies hesitate, but act with distrust and restrained violence.`,
     },
     {
       range: [-10, 0],
-      text: `– Aggressors may speak before attacking (negotiating, intimidating, sizing up opponents).<br>– Hostility may arise as a reaction to minimal provocation.`
+      text: `– Aggressors may speak before attacking (negotiating, intimidating, sizing up opponents).<br>– Hostility may arise as a reaction to minimal provocation.`,
     },
     {
       range: [1, 10],
-      text: `– Some opponents listen to brief arguments before attacking.<br>– Combat can be avoided if the group retreats immediately.`
+      text: `– Some opponents listen to brief arguments before attacking.<br>– Combat can be avoided if the group retreats immediately.`,
     },
     {
       range: [11, 30],
-      text: `– Hostiles react with hesitation or brief curiosity (“Are you the one...?”).<br>– May propose an ultimatum, demand, or ritual challenge before attacking.`
+      text: `– Hostiles react with hesitation or brief curiosity (“Are you the one...?”).<br>– May propose an ultimatum, demand, or ritual challenge before attacking.`,
     },
     {
       range: [31, 50],
-      text: `– Enemy leader may recognize the character and offer a chance for limited dialogue.<br>– Chance of turning into a confrontation with rules (1v1, agreement, or honor).`
+      text: `– Enemy leader may recognize the character and offer a chance for limited dialogue.<br>– Chance of turning into a confrontation with rules (1v1, agreement, or honor).`,
     },
     {
       range: [51, 70],
-      text: `– Less fanatical enemies are intimidated or ask to surrender with honor.<br>– Rival factions among the hostiles may discuss how to deal with the character.`
+      text: `– Less fanatical enemies are intimidated or ask to surrender with honor.<br>– Rival factions among the hostiles may discuss how to deal with the character.`,
     },
     {
       range: [71, 90],
-      text: `– Enemies acknowledge previous deeds, and may offer surrender or a proposal.<br>– Possible conversion of one of the hostiles into a hesitant ally. `
+      text: `– Enemies acknowledge previous deeds, and may offer surrender or a proposal.<br>– Possible conversion of one of the hostiles into a hesitant ally. `,
     },
     {
       range: [91, 100],
-      text: `– The character’s presence generates momentary doubt or reverence.<br>– Rational opponents may give the target a chance to speak before the final fight, respecting the target’s reputation.`
-    }
+      text: `– The character’s presence generates momentary doubt or reverence.<br>– Rational opponents may give the target a chance to speak before the final fight, respecting the target’s reputation.`,
+    },
   ],
 
   Special_Locations: [
     {
       range: [-100, -91],
-      text: `– The location reacts negatively to the character’s presence (gates seal, traps activate on their own).<br>– Cursed or illusory treasures; what is found attracts enemies.`
+      text: `– The location reacts negatively to the character’s presence (gates seal, traps activate on their own).<br>– Cursed or illusory treasures; what is found attracts enemies.`,
     },
     {
       range: [-90, -71],
-      text: `– Presence attracts hostile or corrupted entities from the location.<br>– Items found have bad or cursed secondary effects.<br>– The location may change geography (darkness, fog, disorientation).`
+      text: `– Presence attracts hostile or corrupted entities from the location.<br>– Items found have bad or cursed secondary effects.<br>– The location may change geography (darkness, fog, disorientation).`,
     },
     {
       range: [-70, -51],
-      text: `– Encounters more enemies than normal (guarded, infested).<br>– Doors and paths are difficult to open, some challenges ignore luck.<br>– Perception or navigation checks have penalties.`
+      text: `– Encounters more enemies than normal (guarded, infested).<br>– Doors and paths are difficult to open, some challenges ignore luck.<br>– Perception or navigation checks have penalties.`,
     },
     {
       range: [-50, -31],
-      text: `– Resources are scarce or damaged (broken items, expired potions).<br>– Enemies have terrain bonuses (advantages, cover).`
+      text: `– Resources are scarce or damaged (broken items, expired potions).<br>– Enemies have terrain bonuses (advantages, cover).`,
     },
     {
       range: [-30, -11],
-      text: `– The location appears “neutral,” but hidden opportunities do not reveal themselves.<br>– Shrines or sacred seals do not respond to the character.`
+      text: `– The location appears “neutral,” but hidden opportunities do not reveal themselves.<br>– Shrines or sacred seals do not respond to the character.`,
     },
     {
       range: [-10, 0],
-      text: `– The location reacts in a mixed way: traps can be avoided, but there are no blessings or spiritual help.<br>– Minor events or strange encounters occur (sounds, shadows, illusions).`
+      text: `– The location reacts in a mixed way: traps can be avoided, but there are no blessings or spiritual help.<br>– Minor events or strange encounters occur (sounds, shadows, illusions).`,
     },
     {
       range: [1, 10],
-      text: `– Treasures or information found are functional, but common.<br>– The place remains silent, with no clear supernatural reaction.`
+      text: `– Treasures or information found are functional, but common.<br>– The place remains silent, with no clear supernatural reaction.`,
     },
     {
       range: [11, 30],
-      text: `– Secret elements begin to reveal themselves: hidden passages, ancient inscriptions, artifacts.<br>– The energy of the place does not interfere with the players.`
+      text: `– Secret elements begin to reveal themselves: hidden passages, ancient inscriptions, artifacts.<br>– The energy of the place does not interfere with the players.`,
     },
     {
       range: [31, 50],
-      text: `– Rare items or spiritual rewards are more accessible.<br>– The number of enemies may be smaller, or even avoid direct combat.`
+      text: `– Rare items or spiritual rewards are more accessible.<br>– The number of enemies may be smaller, or even avoid direct combat.`,
     },
     {
       range: [51, 70],
-      text: `– Shrines respond: healing, visions or temporary protection.<br>– The place seems to guide the characters (bonus to investigation tests, luck in events).`
+      text: `– Shrines respond: healing, visions or temporary protection.<br>– The place seems to guide the characters (bonus to investigation tests, luck in events).`,
     },
     {
       range: [71, 90],
-      text: `– Kami or spirits manifest to offer guidance or spiritual tests.<br>– Powerful artifacts recognize the character and activate hidden properties.`
+      text: `– Kami or spirits manifest to offer guidance or spiritual tests.<br>– Powerful artifacts recognize the character and activate hidden properties.`,
     },
     {
       range: [91, 100],
-      text: `– The place changes around the character: traps are disarmed, portals open, the environment cooperates with his presence.<br>– Presence of unique blessings, ancestral messages or rare guardian spirits.`
-    }
+      text: `– The place changes around the character: traps are disarmed, portals open, the environment cooperates with his presence.<br>– Presence of unique blessings, ancestral messages or rare guardian spirits.`,
+    },
   ],
 
   Natural_and_Supernatural_Events: [
     {
       range: [-100, -91],
-      text: `– Natural phenomena turn against the character: blizzards follow his steps, thunder surrounds him, fog selectively impedes vision.<br>– Visions or apparitions are threatening, tempting, or maddening.<br>– Spirits recognize him as a threat; even animals avoid or attack him.`
+      text: `– Natural phenomena turn against the character: blizzards follow his steps, thunder surrounds him, fog selectively impedes vision.<br>– Visions or apparitions are threatening, tempting, or maddening.<br>– Spirits recognize him as a threat; even animals avoid or attack him.`,
     },
     {
       range: [-90, -71],
-      text: `– Magical traps become more unstable in his presence.<br>– Supernatural events induce paranoia, or bring minor curses.<br>– Non-hostile creatures become hostile or hide.`
+      text: `– Magical traps become more unstable in his presence.<br>– Supernatural events induce paranoia, or bring minor curses.<br>– Non-hostile creatures become hostile or hide.`,
     },
     {
       range: [-70, -51],
-      text: `– Phenomena become confusing or misleading: fog shows false paths, voices contradict each other.<br>– Presences attempt to draw the character away from the location, or test his willpower with nightmares, noises, or illusions.`
+      text: `– Phenomena become confusing or misleading: fog shows false paths, voices contradict each other.<br>– Presences attempt to draw the character away from the location, or test his willpower with nightmares, noises, or illusions.`,
     },
     {
       range: [-50, -31],
-      text: `– Events occur normally, but with no chance of positive interaction.<br>– Visions are vague, fragmented, with side effects (fatigue, headache, temporary confusion).`
+      text: `– Events occur normally, but with no chance of positive interaction.<br>– Visions are vague, fragmented, with side effects (fatigue, headache, temporary confusion).`,
     },
     {
       range: [-30, -11],
-      text: `– Possible blessings of events do not manifest.<br>– Magical creatures observe from a distance, but refuse to interact.`
+      text: `– Possible blessings of events do not manifest.<br>– Magical creatures observe from a distance, but refuse to interact.`,
     },
     {
       range: [-10, 0],
-      text: `– Reactions of events are random: they can favor, hinder or pass by completely ignored.<br>– Presences can appear with symbolic, confusing or contradictory messages.`
+      text: `– Reactions of events are random: they can favor, hinder or pass by completely ignored.<br>– Presences can appear with symbolic, confusing or contradictory messages.`,
     },
     {
       range: [1, 10],
-      text: `– Natural events are intense, but without a clear destination.<br>– Supernatural creatures watch you with cautious curiosity, without taking the initiative.<br>– An encounter or vision may occur, but without immediate effect.`
+      text: `– Natural events are intense, but without a clear destination.<br>– Supernatural creatures watch you with cautious curiosity, without taking the initiative.<br>– An encounter or vision may occur, but without immediate effect.`,
     },
     {
       range: [11, 30],
-      text: `– Spirits approach with enigmatic messages or moral tests.<br>– Magical animals or natural entities accept your presence, and may offer hints or discreet protection.`
+      text: `– Spirits approach with enigmatic messages or moral tests.<br>– Magical animals or natural entities accept your presence, and may offer hints or discreet protection.`,
     },
     {
       range: [31, 50],
-      text: `– Apparitions or visions bring clear warnings or small benefits (inspiration, mild healing, a sense of direction).<br>– Fairies or minor kami leave clues, footprints, symbols.`
+      text: `– Apparitions or visions bring clear warnings or small benefits (inspiration, mild healing, a sense of direction).<br>– Fairies or minor kami leave clues, footprints, symbols.`,
     },
     {
       range: [51, 70],
-      text: `– Visions reveal important information, or spiritual memories of the location.<br>– Magical creatures offer symbolic gifts or useful keywords.`
+      text: `– Visions reveal important information, or spiritual memories of the location.<br>– Magical creatures offer symbolic gifts or useful keywords.`,
     },
     {
       range: [71, 90],
-      text: `– Spiritual presences demonstrate respect, admiration or spontaneous protection.<br>– May receive prophecies, clear guidance or feel the emotions of spirits around.`
+      text: `– Spiritual presences demonstrate respect, admiration or spontaneous protection.<br>– May receive prophecies, clear guidance or feel the emotions of spirits around.`,
     },
     {
       range: [91, 100],
-      text: `– Events manifest intentionally for the character (cleansing rain, fire that shows the way, appearance of an ancestor).<br>– Profound revelations, rare blessings or unique pacts may occur.`
-    }
+      text: `– Events manifest intentionally for the character (cleansing rain, fire that shows the way, appearance of an ancestor).<br>– Profound revelations, rare blessings or unique pacts may occur.`,
+    },
   ],
 
   Place: [
     {
       range: [-100, -91],
-      text: `NPCs are suspicious, aggressive, or hostile.<br>Shrines may reject or curse the character.`
+      text: `NPCs are suspicious, aggressive, or hostile.<br>Shrines may reject or curse the character.`,
     },
     {
       range: [-90, -71],
-      text: `Negative rumors spread (even if false).<br>Yokai approach with dark or tempting intentions.`
+      text: `Negative rumors spread (even if false).<br>Yokai approach with dark or tempting intentions.`,
     },
     {
       range: [-70, -51],
-      text: `Guards keep a close eye, monks avoid contact.<br>Some people try to blackmail or bribe the character.`
+      text: `Guards keep a close eye, monks avoid contact.<br>Some people try to blackmail or bribe the character.`,
     },
     {
       range: [-50, -31],
-      text: `Social tests with disadvantage (or greater difficulty).`
+      text: `Social tests with disadvantage (or greater difficulty).`,
     },
     {
       range: [-30, -11],
-      text: `More expensive items, or vendors refuse service.`
+      text: `More expensive items, or vendors refuse service.`,
     },
     {
       range: [-10, 0],
-      text: `Unpredictable reactions: based on appearance, clan, or recent actions.<br>Some people are curious or indifferent.<br>Dialogue variation: balanced chance between help and distrust.`
+      text: `Unpredictable reactions: based on appearance, clan, or recent actions.<br>Some people are curious or indifferent.<br>Dialogue variation: balanced chance between help and distrust.`,
     },
     {
       range: [1, 10],
-      text: `Average prices. Dialogues require stronger arguments.<br>Normal social tests (no bonuses or penalties).<br>Spirit or Kami may ask for moral proof to interact.`
+      text: `Average prices. Dialogues require stronger arguments.<br>Normal social tests (no bonuses or penalties).<br>Spirit or Kami may ask for moral proof to interact.`,
     },
     {
       range: [11, 30],
-      text: `NPCs more open to dialogue and negotiation.<br>Fame precedes the character (positive rumors, stories of bravery or compassion).`
+      text: `NPCs more open to dialogue and negotiation.<br>Fame precedes the character (positive rumors, stories of bravery or compassion).`,
     },
     {
       range: [31, 50],
-      text: `Discounted prices or access to rare items.<br>Neutral or benevolent yokai approach with curiosity or respect.`
+      text: `Discounted prices or access to rare items.<br>Neutral or benevolent yokai approach with curiosity or respect.`,
     },
     {
       range: [51, 70],
-      text: `Monks and priests offer help, guidance or healing.`
+      text: `Monks and priests offer help, guidance or healing.`,
     },
     {
       range: [71, 90],
-      text: `Guards and daimyo listen more attentively.<br>More ease in recruiting allies or mobilizing civilians.`
+      text: `Guards and daimyo listen more attentively.<br>More ease in recruiting allies or mobilizing civilians.`,
     },
     {
       range: [91, 100],
-      text: `Unexpected help: a stranger remembers a past good deed.`
-    }
+      text: `Unexpected help: a stranger remembers a past good deed.`,
+    },
   ],
 
   War: [
     {
       range: [-100, -91],
-      text: `– -2 on all tests related to the event (dodge, perception, resistance, faith, etc.).<br>– Negative critical tests become catastrophic.<br>– Enemies target lethal regions.<br>– Events have extra complications (mud rain, poisoned arrows, collapsing terrain).<br>– Allies flee or die when trying to help.`
+      text: `– -2 on all tests related to the event (dodge, perception, resistance, faith, etc.).<br>– Negative critical tests become catastrophic.<br>– Enemies target lethal regions.<br>– Events have extra complications (mud rain, poisoned arrows, collapsing terrain).<br>– Allies flee or die when trying to help.`,
     },
     {
       range: [-90, -71],
-      text: `– -1 on tests.<br>– Failed criticals have harsh consequences.<br>– Enemies try to immobilize or hinder group actions.<br>– Allies are shocked or hesitate.<br>– Duels are disadvantageous (solo, without support).`
+      text: `– -1 on tests.<br>– Failed criticals have harsh consequences.<br>– Enemies try to immobilize or hinder group actions.<br>– Allies are shocked or hesitate.<br>– Duels are disadvantageous (solo, without support).`,
     },
     {
       range: [-70, -51],
-      text: `– -1 on tests, but it is possible to reverse with good narrative actions.<br>– Opponents attack with focus and cruelty.<br>– Negative events occur without extra chances to react.<br>– Civilians and messengers die or are used as distractions.`
+      text: `– -1 on tests, but it is possible to reverse with good narrative actions.<br>– Opponents attack with focus and cruelty.<br>– Negative events occur without extra chances to react.<br>– Civilians and messengers die or are used as distractions.`,
     },
     {
       range: [-50, -31],
-      text: `– No fixed modifier.<br>– Difficulty tests increase slightly (+1 DC).<br>– Events leave no time to think.<br>– Wounded people die without quick help.<br>– Opportunities arise too late.`
+      text: `– No fixed modifier.<br>– Difficulty tests increase slightly (+1 DC).<br>– Events leave no time to think.<br>– Wounded people die without quick help.<br>– Opportunities arise too late.`,
     },
     {
       range: [-30, -11],
-      text: `– No fixed modifier.<br>– Allies still help, but are slow or disorganized.<br>– Reinforcements arrive, but not in ideal time.<br>– Duel occurs, but without moral consequences.`
+      text: `– No fixed modifier.<br>– Allies still help, but are slow or disorganized.<br>– Reinforcements arrive, but not in ideal time.<br>– Duel occurs, but without moral consequences.`,
     },
     {
       range: [-10, 0],
-      text: `– No bonuses or penalties.<br>– Events follow standard descriptions.<br>– Interactions follow normal tests.<br>– Yokai or Kami remain unpredictable.`
+      text: `– No bonuses or penalties.<br>– Events follow standard descriptions.<br>– Interactions follow normal tests.<br>– Yokai or Kami remain unpredictable.`,
     },
     {
       range: [1, 30],
-      text: `– +1 to tests (dodge, resistance, perception, faith).<br>– Enemies narrowly miss fatal blows.<br>– Allies try to intervene to save or protect.<br>– Duels can attract respect even if lost.`
+      text: `– +1 to tests (dodge, resistance, perception, faith).<br>– Enemies narrowly miss fatal blows.<br>– Allies try to intervene to save or protect.<br>– Duels can attract respect even if lost.`,
     },
     {
       range: [31, 60],
-      text: `– +1 to tests<br>– Can repeat 1 test per event (1x/day)<br>– Arrows aim for the chest, but hit the shoulder.<br>– Reinforcements arrive at the critical moment.<br>– Civilians help to heal or protect.`
+      text: `– +1 to tests<br>– Can repeat 1 test per event (1x/day)<br>– Arrows aim for the chest, but hit the shoulder.<br>– Reinforcements arrive at the critical moment.<br>– Civilians help to heal or protect.`,
     },
     {
       range: [61, 90],
-      text: `– +2 on relevant tests.<br>– Critical success gains bonus effects (healing, morale, aura).<br>– Enemies aim, but hesitate.<br>– Negative events become hidden opportunities.<br>– Kami intervene subtly (vision, whisper, aura).`
+      text: `– +2 on relevant tests.<br>– Critical success gains bonus effects (healing, morale, aura).<br>– Enemies aim, but hesitate.<br>– Negative events become hidden opportunities.<br>– Kami intervene subtly (vision, whisper, aura).`,
     },
     {
       range: [91, 100],
-      text: `– +2 on tests + narrative advantage (choose outcome in some cases).<br>– Enemies miss vital blows by miracle.<br>– Allies sacrifice themselves to save the player.<br>– The Kami or local spirit clearly acts in your favor (healing, barrier, revelations).`
+      text: `– +2 on tests + narrative advantage (choose outcome in some cases).<br>– Enemies miss vital blows by miracle.<br>– Allies sacrifice themselves to save the player.<br>– The Kami or local spirit clearly acts in your favor (healing, barrier, revelations).`,
     },
-  ]
+  ],
 };
 
 function updateKarmaDescription(value) {
@@ -1756,9 +3002,13 @@ function updateKarmaDescription(value) {
   const table = karmaEventDescriptions[type];
   if (!table || !descElement) return;
 
-  const description = table.find(entry => value >= entry.range[0] && value <= entry.range[1]);
+  const description = table.find(
+    (entry) => value >= entry.range[0] && value <= entry.range[1]
+  );
 
-  descElement.innerHTML = description ? description.text : "Invalid karma value.";
+  descElement.innerHTML = description
+    ? description.text
+    : "Invalid karma value.";
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -1797,7 +3047,6 @@ document.querySelector(".submit").addEventListener("click", () => {
   }
 });
 
-
 // World - Upload de imagem
 document.querySelector(".img_icon").addEventListener("click", () => {
   document.getElementById("imgInput").click();
@@ -1822,7 +3071,6 @@ document.getElementById("imgInput").addEventListener("change", (event) => {
   reader.readAsDataURL(file);
 });
 
-
 let currentTarget = null;
 
 document.querySelector(".screen").addEventListener("contextmenu", function (e) {
@@ -1837,7 +3085,8 @@ document.querySelector(".screen").addEventListener("contextmenu", function (e) {
     menu.style.top = `${e.pageY}px`;
     menu.style.display = "block";
 
-    document.getElementById("editOption").style.display = target.tagName === "P" ? "block" : "none";
+    document.getElementById("editOption").style.display =
+      target.tagName === "P" ? "block" : "none";
   }
 });
 
@@ -1878,7 +3127,6 @@ document.getElementById("editOption").addEventListener("click", () => {
   }
 });
 
-
 //save_icon
 const saveIcon = document.getElementById("save_icon");
 const menu = document.getElementById("save_menu");
@@ -1896,22 +3144,21 @@ document.addEventListener("click", function (e) {
   }
 });
 
-
 //Page Dice
 //Img dice
 function animateResult(element) {
-  element.classList.remove('result-flash');
+  element.classList.remove("result-flash");
   void element.offsetWidth;
-  element.classList.add('result-flash');
+  element.classList.add("result-flash");
 }
 
-document.querySelectorAll('.D').forEach(img => {
-  img.addEventListener('click', () => {
+document.querySelectorAll(".D").forEach((img) => {
+  img.addEventListener("click", () => {
     const dieType = img.alt;
     const resultId = `${dieType}_result`;
     const resultElement = document.getElementById(resultId);
 
-    let maxValue = parseInt(dieType.replace('D', ''));
+    let maxValue = parseInt(dieType.replace("D", ""));
     let result;
 
     if (maxValue === 100) {
@@ -1943,15 +3190,15 @@ function enforceMinMax(input) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const inputs = [
-    document.getElementById('moral'),
-    document.getElementById('D20_war'),
-    document.getElementById('D20_karma')
+    document.getElementById("moral"),
+    document.getElementById("D20_war"),
+    document.getElementById("D20_karma"),
   ];
 
-  inputs.forEach(input => {
-    input.addEventListener('input', () => enforceMinMax(input));
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => enforceMinMax(input));
   });
 });
 
@@ -1991,7 +3238,6 @@ document.getElementById("submit_karma").addEventListener("click", function () {
   console.log("Karma:", karma);
   console.log("Event type:", type);
 });
-
 
 //Sheet buttons
 // More Skill Button
