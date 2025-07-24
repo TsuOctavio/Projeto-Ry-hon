@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Project Ryūhon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Jacquard+24&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="src/CSS/style.css">
+</head>
+
+<body>
+    <div id="Title">
+        <img id="save_icon" src="src/Images/Icons/Save Icon.png" alt="options icon">
+        <div id="save_menu">
+            <div id="option_save">Save</div>
+            <div id="option_load">Load</div>
+        </div>
+        <h1>RPG Project Ryūhon</h1>
+    </div>
+    <div id="center">
+        <div class="list">
+            <ul class="list">
+                <li data-target="dice">Dice simulator</li>
+                <li data-target="war">War system</li>
+                <li data-target="Campaign_Report">Campaign Report</li>
+                <li data-target="Big_NPCs">Big NPCs</li>
+                <li data-target="Guild">Guild</li>
+                <li data-target="Territories">Daimyo and their territories</li>
+        </div>
+        <div id="tab_1">
+            <h2 id="title_page">Dice simulator</h2>
+            <div class="page" data-page="dice">
+                <div id="main">
+                    <img class="D" src="src/Images/Icons/D4.png" alt="D4">
+                    <h3>N = 1 to 4</h3>
+                    <p id="D4_result">click on D4 to get a result</p><br>
+                    <img class="D" src="src/Images/Icons/D6.png" alt="D6">
+                    <h3>N = 1 to 6</h3>
+                    <p id="D6_result">click on D6 to get a result</p><br>
+                    <img class="D" src="src/Images/Icons/D8.png" alt="D8">
+                    <h3>N = 1 to 8</h3>
+                    <p id="D8_result">click on D8 to get a result</p><br>
+                    <img class="D" src="src/Images/Icons/D10.png" alt="D10">
+                    <h3>N = 1 to 10</h3>
+                    <p id="D10_result">click on D10 to get a result</p>
+                </div>
+                <div id="right">
+                    <img class="D" src="src/Images/Icons/D12.png" alt="D12">
+                    <h3>N = 1 to 12</h3>
+                    <p id="D12_result">click on D12 to get a result</p><br>
+                    <img class="D" src="src/Images/Icons/D20.png" alt="D20">
+                    <h3>N = 1 to 20</h3>
+                    <p id="D20_result">click on D20 to get a result</p><br>
+                    <img class="D" src="src/Images/Icons/D100.png" alt="D100">
+                    <h3>N = 10* (1 to 10)</h3>
+                    <p id="D100_result">click on D100 to get a result</p>
+                </div>
+            </div>
+            <div class="page" data-page="war">
+                <div id="war_top_part">
+                    <div id="div_moral">
+                        <label id="label_moral" for="moral">Moral</label>
+                        <input id="moral" type="number" min="0" max="10" value="5">
+                    </div>
+                    <div id="moral_button">
+                        <button onclick="changemorals(1)">⬆️</button>
+                        <button onclick="changemorals(-1)">⬇️</button>
+                    </div>
+                    <div id="description_border">
+                        <p id="Description_morale">Description of morale</p>
+                    </div>
+                </div>
+                <h3 id="War_events_tittle">Random Events</h3>
+                <div id="war_low_part">
+                    <div id="War_input_part">
+                        <input id="D20_war" type="number" min="1" max="20">
+                        <div id="events_part">
+                            <label for="events_option">Type</label>
+                            <select id="events_option">
+                                <option value="War">War</option>
+                                <option value="Trip">Trip</option>
+                                <option value="Place">A place</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="war_button">
+                        <button id="B_D20_war" type="button">&#x25BA;</button>
+                        <button id="random">R</button>
+                    </div>
+                    <div id="Description_d20_border">
+                        <p id="Description_d20">Description D20</p>
+                    </div>
+                </div>
+                <h3 id="War_karma_tittle">Karma Events</h3>
+                <div id="war_karma_part">
+                    <div id="karma_input">
+                        <h3 id="karma_tittle">Karma</h3>
+                        <input id="D20_karma" type="number" min="-100" max="100" value="0">
+                        <div id="karma_option_0">
+                            <Label for="karma_option">Type</Label>
+                            <select id="karma_option">
+                                <option value="Social_Meetings">Social Meetings</option>
+                                <option value="Hostile_Encounters">Hostile Encounters</option>
+                                <option value="Special_Locations">Special Locations</option>
+                                <option value="Natural_and_Supernatural_Events">Natural and Supernatural Events</option>
+                                <option value="Place">A place</option>
+                                <option value="War">War</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="karma_button">
+                        <button id="K_D20_war" type="submit">&#x25BA;</button>
+                    </div>
+                    <div id="Description_d20_border_karma">
+                        <p id="Description_d20_karma">Description Karma</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page" data-page="Campaign_Report">
+                <div class="screen"></div>
+                <ul id="contextMenu">
+                    <li id="editOption" style="padding:5px; cursor:pointer;">Edit</li>
+                    <li id="deleteOption" style="padding:5px; cursor:pointer;">Delete</li>
+                    <li id="moveUpOption" style="padding:5px; cursor:pointer;">Move Up</li>
+                    <li id="moveDownOption" style="padding:5px; cursor:pointer;">Move Down</li>
+                </ul>
+                <div class="chat">
+                    <textarea class="message" placeholder="Write your message..."></textarea>
+                    <div class="button_world">
+                        <img class="img_icon" src="/src/Images/Icons/Img icon.png" alt="Img icon">
+                        <input type="file" id="imgInput" accept="image/*" style="display: none;" />
+                        <button class="submit" type="submit">&#x25B6;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="page" data-page="sheet">
+                <div class="top_1">
+                    <label for="name">Name</label>
+                    <input class="name" type="text">
+                    <label for="Religion">Religion</label>
+                    <input class="religion" type="text">
+                </div>
+                <div class="top_2">
+                    <label for="race">Race</label>
+                    <input class="race" type="text">
+                    <label for="class">Class</label>
+                    <input class="class" type="text">
+                </div>
+                <div class="mid">
+                    <div class="True_attributes">
+                        <h2>Attributes</h2>
+                        <div class="flex">
+                            <div class="Attributes">
+                                <label for="str">Strength (STR)</label>
+                                <input class="str N" type="number" min="0" max="50"> <br>
+                                <label for="dex N">Dexterity (DEX)</label>
+                                <input class="dex N" type="number" min="0" max="50"> <br>
+                                <label for="con">Constitution (CON)</label>
+                                <input class="con N" type="number" min="0" max="50"> <br>
+                                <label for="per">Perception (PER)</label>
+                                <input class="per N" type="number" min="0" max="50"> <br>
+                                <label for="int">Intelligence (INT)</label>
+                                <input class="int N" type="number" min="0" max="50"> <br>
+                                <label for="wil">Willpower (WIL)</label>
+                                <input class="wil N" type="number" min="0" max="50"> <br>
+                                <label for="cha">Charisma (CHA)</label>
+                                <input class="cha N" type="number" min="0" max="50">
+                            </div>
+                            <div class="Attributes_1">
+                                <label for="fai">Faith (FAI)</label>
+                                <input class="fai N" type="number" min="0" max="50"> <br>
+                                <label for="mag">Magic (MAG)</label>
+                                <input class="mag N" type="number" min="0" max="50"> <br>
+                                <label for="aur">Aura (AUR)</label>
+                                <input class="aur N" type="number" min="0" max="50"> <br>
+                                <label for="karma">Karma</label>
+                                <input class="Karma N" type="number" min="-100" max="100"> <br>
+                                <label for="Gold">Gold</label>
+                                <input class="Gold N" type="number" min="0" max="99999999999"> <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mid_1">
+                        <h2>Skills and techniques</h2>
+                        <ul class="skills">
+                            <li contenteditable="true">
+                                <span class="iten_name" contenteditable="true"></span>
+                            </li>
+                            <li contenteditable="true">
+                                <span class="iten_name" contenteditable="true"></span>
+                            </li>
+                            <li contenteditable="true">
+                                <span class="iten_name" contenteditable="true"></span>
+                            </li>
+                        </ul>
+                        <img class="more_skill" src="src/Images/Icons/+ symbol.png" alt="+ Symbol">
+                    </div>
+                </div>
+                <div class="bottom">
+                    <div class="itens">
+                        <h2>Itens</h2>
+                        <ul class="iten_list">
+                            <li>
+                                <input class="N2" type="number" class="quantidade" value="2" min="0" />
+                                <span class="iten_name" contenteditable="true">Medical kit</span>
+                            </li>
+                            <li>
+                                <input class="N2" type="number" class="quantidade" value="1" min="0" />
+                                <span class="iten_name" contenteditable="true">Flashlight</span>
+                            </li>
+                        </ul>
+                        <img class="more_iten" src="src/Images/Icons/+ symbol.png" alt="+ Symbol">
+                    </div>
+                    <div class="background_sheet">
+                        <h2>story</h2>
+                        <textarea class="story" placeholder="Write your message..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="page" data-page="Big_NPCs">
+                <div id="NPCs_Clas_name">
+                    <h2>Clan name</h2>
+                    <p>Oda</p>
+                    <p>Tokugawa</p>
+                    <p>Saito</p>
+                    <p>Imagawa</p>
+                    <p>Kitabatake</p>
+                    <p>Rokkaku</p>
+                    <p>Ashikaga</p>
+                    <p>Miyoshi</p>
+                </div>
+                <div id="Info_Clan">
+                    <h2 class="Target_clan">Clan</h2>
+                    <div id="Clan_top">Description</div>
+                    <div id="Clan_mid">
+                        <div id="Clan_mid_1">Lineage and abilities</div>
+                        <div id="Clan_mid_2">Allies and Enemies</div>
+                        <div id="Clan_mid_3">Clan Characters</div>
+                    </div>
+                    <div id="Clan_buttom">Vassal clans</div>
+                </div>
+            </div>
+            <div class="page" data-page="Guild">
+                <div id="Guild_description">
+                    <h2>Guild_description</h2>
+                    <p>The Mercenaries and Adventurers Guild is a neutral organization located in several cities and
+                        fortresses across the country. Founded to maintain order among masterless warriors, it serves as
+                        a bridge between contractors and independent fighters—including ronin, shugenja, wandering
+                        swordsmen, yokai hunters, and military specialists.</p>
+                    <table id="Guild_table">
+                        <tr>
+                            <td><strong>Contract intermediation</strong></td>
+                            <td>Links mercenaries to clients (civilians, nobles, temples, even daimyōs)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mission management</strong></td>
+                            <td>Organizes combat missions, escort, espionage, investigation, etc.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Member classification</strong></td>
+                            <td>Evaluates, ranks and promotes groups based on performance and fame</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Center of reputation and fame</strong></td>
+                            <td>Groups gain renown, recognition, and custom orders</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Recruitment and reintegration</strong></td>
+                            <td>Accepts ronin, war orphans, veterans, or creatures under magical contract</td>
+                        </tr>
+                    </table>
+                    <h3>Military and Political Neutrality</h3>
+                    <p>Although it provides warriors for wars, the guild maintains a neutral position between the
+                        clans.<br>
+                        Its code of conduct prohibits:<br>
+                        - Fighting for both sides simultaneously<br>
+                        - Guild groups from participating in internal political coups<br>
+                        - Acts against the guild headquarters or its members<br><br>
+                        Mercenaries can be hired for wars, but:<br>
+                        - The contract is registered and visible to the guild<br>
+                        - Conflicting missions are temporarily blocked <br>
+                        - The guild never directly participates in conflicts<br>
+                        “The guild does not care about the throne. Only about the coin.”</p>
+                    <table id="Guild_table_rank">
+                        <tr>
+                            <td>Rank</td>
+                            <td>Title</td>
+                            <td>Description</td>
+                            <td>Rank Points</td>
+                        </tr>
+                        <tr>
+                            <td>F</td>
+                            <td>Started</td>
+                            <td>Newbie, basic tasks</td>
+                            <td>0+</td>
+                        </tr>
+                        <tr>
+                            <td>E</td>
+                            <td>Aspirant</td>
+                            <td>Light fighting started</td>
+                            <td>10+</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>Mercenary</td>
+                            <td>Authorized to patrol and eliminate bandits</td>
+                            <td>30+</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>Frontier Warrior</td>
+                            <td>Participates in regional skirmishes and missions</td>
+                            <td>60+</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>Recognized Blade</td>
+                            <td>Earns own orders, acts in wars</td>
+                            <td>100+</td>
+                        </tr>
+                        <tr>
+                            <td>A</td>
+                            <td>Weight Name</td>
+                            <td>It can interfere in the course of battles and politics</td>
+                            <td>160+</td>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td>Living Legend</td>
+                            <td>Feared and revered by all</td>
+                            <td>240+</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="Guild_right_part">
+                    <div id="Party_description">
+                        <div id="p2">
+                            <p id="Party_name" contenteditable="true">Do you have dice at home?</p>
+                            <p id="Party_description_2">Newbie</p>
+                        </div>
+                        <div id="Party_class">
+                            <label for="Rank">Rank:</label>
+                            <select id="Rank_F_to_S">
+                                <option value="F">F</option>
+                                <option value="E">E</option>
+                                <option value="D">D</option>
+                                <option value="C">C</option>
+                                <option value="B">B</option>
+                                <option value="A">A</option>
+                                <option value="S">S</option>
+                            </select>
+                            <p id="XP" contenteditable="true">Party points 0/10</p>
+                        </div>
+                    </div>
+                    <div id="Quest">
+                        <button id="Quest_search">Quest Search</button>
+                        <p class="quests" data-quests="1"></p>
+                        <p class="quests" data-quests="2"></p>
+                        <p class="quests" data-quests="3"></p>
+                        <p class="quests" data-quests="4"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="page" data-page="Territories">
+                <div id="Territory_attributes">
+                    <img src="src/Images/Icons/Food icon.png" alt="Food icon">
+                    <input type="number" id="Food">
+                    <img src="src/Images/Icons/Army Icon.png" alt="Army icon">
+                    <input type="number" id="Army">
+                    <img src="src/Images/Icons/Happiness Icon.png" alt="Happiness icon">
+                    <input type="number" id="Happiness">
+                    <img src="src/Images/Icons/Population Icon.jpg" alt="Population icon">
+                    <input type="number" id="Population">
+                    <img src="src/Images/Icons/Agriculture Icon.avif" alt="Agriculture icon">
+                    <input type="number" id="Agriculture">
+                    <img src="src/Images/Icons/Money Icon.jpg" alt="Money icon">
+                    <input type="number" id="Money">
+                    <img src="src/Images/Icons/Infrastructure Icon.png" alt="Infrastructure icon">
+                    <input type="number" id="Infrastructure">
+                    <img src="src/Images/Icons/Business Icon.png" alt="Business icon">
+                    <input type="number" id="Business">
+                </div>
+                <div id="Territories_main">
+                    <div id="Territories_left">
+                        <div id="Territories_ul">
+                            <ul id="Territories_description">
+                                <li>
+                                    <img src="src/Images/Icons/Food icon.png" alt="Food icon">
+                                    Food
+                                </li>
+                                <li>
+                                    <img src="src/Images/Icons/Army Icon.png" alt="Army icon">
+                                    Army
+                                </li>
+                                <li>
+                                    <img src="src/Images/Icons/Happiness Icon.png" alt="Happiness icon">
+                                    Happiness
+                                </li>
+                                <li>
+                                    <img src="src/Images/Icons/Population Icon.jpg" alt="Population icon">
+                                    Population
+                                </li>
+                                <li>
+                                    <img src="src/Images/Icons/Agriculture Icon.avif" alt="Agriculture icon">
+                                    Agriculture
+                                </li>
+                                <li>
+                                    <img src="src/Images/Icons/Money Icon.jpg" alt="Money icon">
+                                    Money
+                                </li>
+                                <li>
+                                    <img src="src/Images/Icons/Infrastructure Icon.png" alt="Infrastructure icon">
+                                    Infrastructure
+                                </li>
+                                <li>
+                                    <img src="src/Images/Icons/Business Icon.png" alt="Business icon">
+                                    Business
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="Territories_mid">
+                        <div id="Territory_specialty">
+                            <textarea class="specialty" placeholder="Territory Specialty, Description:, Effects:"></textarea>
+                        </div>
+                        <div id="action">
+                            <h3>Event created</h3>
+                            <div id="Event_description">
+                                <div id="Name_description">
+                                    <textarea class="Event_action"
+                                        placeholder="2 Events you will do and their descriptions"></textarea>
+                                </div>
+                                <div id="Event_effect">
+                                    <p><strong>Event effects</strong></p>
+                                    <label for="food">Food</label>
+                                    <input type="number">
+                                    <label for="army">Army</label>
+                                    <input type="number">
+                                    <label for="happiness">Happiness</label>
+                                    <input type="number">
+                                    <label for="population">Population</label>
+                                    <input type="number">
+                                    <label for="agriculture">Agriculture</label>
+                                    <input type="number">
+                                    <label for="money">Money</label>
+                                    <input type="number">
+                                    <label for="infrastructure">Infrastructure</label>
+                                    <input type="number">
+                                    <label for="business">Business</label>
+                                    <input type="number">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Territories_rigth">
+                        <button id="Random_events">2 Random events</button>
+                        <div class="Random_event"></div>
+                        <div class="Random_event"></div>
+                        <button id="Pass_turn">Pass turn</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab_2_controler">
+
+        </div>
+
+        <div id="tab_2">
+            <h2 id="tab_2_title">Character sheet table</h2>
+            <button id="updateTableButton">update Table Button</button>
+            <div id="tab_2_table">
+                <div class="column-scroll">
+                    <table id="character-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>STR</th>
+                                <th>DEX</th>
+                                <th>CON</th>
+                                <th>PER</th>
+                                <th>INT</th>
+                                <th>WIL</th>
+                                <th>CHA</th>
+                                <th>FAI</th>
+                                <th>MAG</th>
+                                <th>AUR</th>
+                                <th>KARMA</th>
+                                <th>Gold</th>
+                            </tr>
+                        </thead>
+                        <tbody id="character-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="paint">
+                <div id="mapContainer"></div>
+                <div id="legend">
+                    <h2>Clans</h2>
+                    <div id="legend-controls">
+                        <button id="infoMode">?</button>
+                    </div>
+                    <div class="clan-button" style="background-color: #000000;" data-clan="Edge">Edge</div>
+                    <div class="clan-button" style="background-color: #ff0000ff;" data-clan="Oda">Oda</div>
+                    <div class="clan-button" style="background-color: #1976d2;" data-clan="Tokugawa">Tokugawa</div>
+                    <div class="clan-button" style="background-color: #388e3c;" data-clan="Mori">Mori</div>
+                    <div class="clan-button" style="background-color: #fbc02d;" data-clan="Shimazu">Shimazu</div>
+                    <div class="clan-button" style="background-color: #5d4037;" data-clan="Hojo">Hojo</div>
+                    <div class="clan-button" style="background-color: #7b1fa2;" data-clan="Takeda">Takeda</div>
+                    <div class="clan-button" style="background-color: #00796b;" data-clan="Imagawa">Imagawa</div>
+                    <div class="clan-button" style="background-color: #ffa000;" data-clan="Date">Date</div>
+                    <div class="clan-button" style="background-color: #303f9f;" data-clan="Mogami">Mogami</div>
+                    <div class="clan-button" style="background-color: #55d400ff;" data-clan="Hatakeyama">Hatakeyama
+                    </div>
+                    <div class="clan-button" style="background-color: #c2185b;" data-clan="Ashina">Ashina</div>
+                    <div class="clan-button" style="background-color: #0288d1;" data-clan="Uesugi">Uesugi</div>
+                    <div class="clan-button" style="background-color: #689f38;" data-clan="Satomi">Satomi</div>
+                    <div class="clan-button" style="background-color: #c62828;" data-clan="Asakura">Asakura</div>
+                    <div class="clan-button" style="background-color: #00695c;" data-clan="Azai">Azai</div>
+                    <div class="clan-button" style="background-color: #4527a0;" data-clan="Ikko-Ikki">Ikko-Ikki</div>
+                    <div class="clan-button" style="background-color: #ff7043;" data-clan="Chokabe">Chokabe</div>
+                    <div class="clan-button" style="background-color: #455a64;" data-clan="Ryuzoji">Ryuzoji</div>
+                    <div class="clan-button" style="background-color: #9e9d24;" data-clan="Saito">Saito</div>
+                    <div class="clan-button" style="background-color: #6a1b9a;" data-clan="Ashikaga">Ashikaga</div>
+                    <div class="clan-button" style="background-color: #ffccaaff;" data-clan="Matsunaga">Matsunaga</div>
+                    <div class="clan-button" style="background-color: #00acc1;" data-clan="Hosokawa">Hosokawa</div>
+                    <div class="clan-button" style="background-color: #ff8f00;" data-clan="Bessho">Bessho</div>
+                    <div class="clan-button" style="background-color: #8e24aa;" data-clan="Miyoshi">Miyoshi</div>
+                    <div class="clan-button" style="background-color: #1e88e5;" data-clan="Ukita">Ukita</div>
+                    <div class="clan-button" style="background-color: #d81b60;" data-clan="Yamana">Yamana</div>
+                    <div class="clan-button" style="background-color: #00838f;" data-clan="Kikkawa">Kikkawa</div>
+                    <div class="clan-button" style="background-color: #f57f17;" data-clan="Amako">Amako</div>
+                    <div class="clan-button" style="background-color: #e64a19;" data-clan="Kono">Kono</div>
+                    <div class="clan-button" style="background-color: #33691e;" data-clan="Otomo">Otomo</div>
+                    <div class="clan-button" style="background-color: #827717;" data-clan="Sagara">Sagara</div>
+                    <div class="clan-button" style="background-color: #bf360c;" data-clan="Ito">Ito</div>
+                    <div class="clan-button" style="background-color: #1a237e;" data-clan="Kitabatake">Kitabatake</div>
+                    <div class="clan-button" style="background-color: #4e342e;" data-clan="Iga">Iga</div>
+                    <div class="clan-button" style="background-color: #f44336;" data-clan="Rokkaku">Rokkaku</div>
+                    <div class="clan-button" style="background-color: #3949ab;" data-clan="Hatano">Hatano</div>
+                    <div class="clan-button" style="background-color: #00ffffff;" data-clan="Anegakoji">Anegakoji</div>
+                    <div class="clan-button" style="background-color: #6d4c41;" data-clan="Urakami">Urakami</div>
+                    <div class="clan-button" style="background-color: #f399ff;" data-clan="Miyoshi">Miyoshi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul id="Tfoot">
+        <li class="Character_sheet">
+            <img id="more_sheet" src="src/Images/Icons/+ symbol.png" alt="+ Symbol">
+        </li>
+    </ul>
+    <script src="./src/JS/index.js"></script>
+</body>
+
+</html>
