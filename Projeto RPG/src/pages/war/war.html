@@ -1,0 +1,64 @@
+<h2 id="title_page"></h2>
+<div class="page" data-page="war">
+  <div id="war_top_part">
+    <div id="div_moral">
+      <label id="label_moral" for="moral">Moral</label>
+      <input id="moral" type="number" min="0" max="10" value="5" />
+    </div>
+    <div id="moral_button">
+      <button onclick="changemorals(1)">⬆️</button>
+      <button onclick="changemorals(-1)">⬇️</button>
+    </div>
+    <div id="description_border">
+      <p id="Description_morale">Description of morale</p>
+    </div>
+  </div>
+  <h3 id="War_events_tittle">Random Events</h3>
+  <div id="war_low_part">
+    <div id="War_input_part">
+      <input id="D20_war" type="number" min="1" max="20" />
+      <div id="events_part">
+        <label for="events_option">Type</label>
+        <select id="events_option">
+          <option value="War">War</option>
+          <option value="Trip">Trip</option>
+          <option value="Place">A place</option>
+        </select>
+      </div>
+    </div>
+    <div id="war_button">
+      <button id="B_D20_war" type="button">&#x25BA;</button>
+      <button id="random">R</button>
+    </div>
+    <div id="Description_d20_border">
+      <p id="Description_d20">Description D20</p>
+    </div>
+  </div>
+  <h3 id="War_karma_tittle">Karma Events</h3>
+  <div id="war_karma_part">
+    <div id="karma_input">
+      <h3 id="karma_tittle">Karma</h3>
+      <input id="D20_karma" type="number" min="-100" max="100" value="0" />
+      <div id="karma_option_0">
+        <label for="karma_option">Type</label>
+        <select id="karma_option">
+          <option value="Social_Meetings">Social Meetings</option>
+          <option value="Hostile_Encounters">Hostile Encounters</option>
+          <option value="Special_Locations">Special Locations</option>
+          <option value="Natural_and_Supernatural_Events">
+            Natural and Supernatural Events
+          </option>
+          <option value="Place">A place</option>
+          <option value="War">War</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="karma_button">
+      <button id="K_D20_war" type="submit">&#x25BA;</button>
+    </div>
+    <div id="Description_d20_border_karma">
+      <p id="Description_d20_karma">Description Karma</p>
+    </div>
+  </div>
+</div>

@@ -1,1183 +1,1181 @@
 body {
-    font-family: "IM Fell English", sans-serif;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    display: grid;
+  font-family: "IM Fell English", sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: grid;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .visible-flex {
-    display: flex !important;
+  display: flex !important;
 }
 
 #Title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: blanchedalmond;
-    font-size: 20px;
-    gap: 1rem;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 70px;
-    background-image: url("../Images/Background/Top\ 1.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: blanchedalmond;
+  font-size: 20px;
+  gap: 1rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-image: url("../Images/Background/Top\ 1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #save_icon {
-    position: absolute;
-    left: 10px;
-    width: 40px;
-    height: 40px;
+  position: absolute;
+  left: 10px;
+  width: 40px;
+  height: 40px;
 }
 
 #save_menu {
-    display: none;
-    position: absolute;
-    background: #000;
-    border: 2px solid #000000;
-    z-index: 1000;
-    padding: 5px;
-    box-shadow: 2px 2px 10px rgba(252, 250, 250, 0.1);
-    border-radius: 5px;
+  display: none;
+  position: absolute;
+  background: #000;
+  border: 2px solid #000000;
+  z-index: 1000;
+  padding: 5px;
+  box-shadow: 2px 2px 10px rgba(252, 250, 250, 0.1);
+  border-radius: 5px;
 }
 
 #option_save {
-    padding: 5px;
-    cursor: pointer;
+  padding: 5px;
+  cursor: pointer;
 }
 
 #option_load {
-    padding: 5px;
-    cursor: pointer;
+  padding: 5px;
+  cursor: pointer;
 }
 
 .page {
-    margin-left: 125px;
-    height: 570px;
-    width: 940px;
-    display: none;
+  margin-left: 125px;
+  height: 570px;
+  width: 940px;
 }
 
 #center {
-    height: 759px;
-    width: 1879px;
-    display: flex;
-    align-items: flex-start;
-    border: 2px solid #000;
-    box-sizing: border-box;
+  height: 759px;
+  width: 1879px;
+  display: flex;
+  align-items: flex-start;
+  border: 2px solid #000;
+  box-sizing: border-box;
 }
 
 .list {
-    list-style: none;
-    height: 100%;
-    width: 150px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    background-image: url("../Images/Background/Background\ List.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+  list-style: none;
+  height: 100%;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-image: url("../Images/Background/Background\ List.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .list li:first-child {
-    margin-top: 75px;
+  margin-top: 75px;
 }
 
 li {
-    height: 60px;
-    width: 106px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #000;
+  height: 60px;
+  width: 106px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #000;
 }
 
 .list li {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .list li span {
-    flex-grow: 1;
-    text-align: center;
+  flex-grow: 1;
+  text-align: center;
 }
 
 #listContextMenu {
-    display: none;
-    position: absolute;
-    z-index: 1000;
-    background: #222;
-    color: white;
-    list-style: none;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #444;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background: #222;
+  color: white;
+  list-style: none;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #444;
 }
 
 #listContextMenu li:hover {
-    background-color: #333;
+  background-color: #333;
 }
 
 #tab_1 {
-    height: 100%;
-    width: 1178px;
-    box-sizing: border-box;
-    background-image: url(../Images/Background/Background\ Tab\ 1.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+  height: 100%;
+  width: 1178px;
+  box-sizing: border-box;
+  background-image: url(../Images/Background/Background\ Tab\ 1.png);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .page[data-page="dice"] {
-    margin: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
 }
 
 #title_page {
-    margin: 0;
-    margin-top: 60px;
-    height: 30px;
-    width: 100%;
-    text-align: center;
+  margin: 0;
+  margin-top: 60px;
+  height: 30px;
+  width: 100%;
+  text-align: center;
 }
 
 #main {
-    height: 585px;
-    width: 50%;
-    margin: 0;
-    justify-items: center;
+  height: 585px;
+  width: 50%;
+  margin: 0;
+  justify-items: center;
 }
 
 .D {
-    height: 80px;
-    width: 80px;
-    cursor: pointer;
+  height: 80px;
+  width: 80px;
+  cursor: pointer;
 }
 
 @keyframes flash {
-    0% {
-        background-color: yellow;
-    }
+  0% {
+    background-color: yellow;
+  }
 
-    100% {
-        background-color: transparent;
-    }
+  100% {
+    background-color: transparent;
+  }
 }
 
 .result-flash {
-    animation: flash 0.3s ease;
+  animation: flash 0.3s ease;
 }
 
 h3,
 p {
-    margin: 0;
+  margin: 0;
 }
 
 #right {
-    height: 585px;
-    width: 50%;
-    margin: 0;
-    justify-items: center;
+  height: 585px;
+  width: 50%;
+  margin: 0;
+  justify-items: center;
 }
 
 .page[data-page="war"] {
-    margin-left: 125px;
-    height: 570px;
-    width: 940px;
+  margin-left: 125px;
+  height: 570px;
+  width: 940px;
 }
 
 #war_top_part {
-    height: 25%;
-    width: 100%;
-    border: 2px solid #000;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 30px;
+  height: 25%;
+  width: 100%;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30px;
 }
 
 #div_moral {
-    display: grid;
-    height: 100%;
-    width: 100px;
-    text-align: center;
-    place-items: center;
+  display: grid;
+  height: 100%;
+  width: 100px;
+  text-align: center;
+  place-items: center;
 }
 
 #label_moral {
-    padding-top: 30px;
+  padding-top: 30px;
 }
 
 #moral {
-    margin-bottom: 30px;
-    height: 70px;
-    width: 80px;
-    font-size: 70px;
-    text-align: center;
-    background-color: transparent;
-    border: 1px solid #000;
+  margin-bottom: 30px;
+  height: 70px;
+  width: 80px;
+  font-size: 70px;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid #000;
 }
 
 #moral::-webkit-inner-spin-button,
 #moral::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 #moral_button {
-    height: 100%;
-    display: grid;
-    border: 2px solid #000;
+  height: 100%;
+  display: grid;
+  border: 2px solid #000;
 }
 
 #description_border {
-    height: 100%;
-    width: 100%;
-    font-size: 30px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  font-size: 30px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #description_morale {
-    height: 100%;
-    width: 100%;
-    word-wrap: break-word;
+  height: 100%;
+  width: 100%;
+  word-wrap: break-word;
 }
 
 #War_events_tittle {
-    margin-top: 10px;
-    height: 30px;
-    width: 100%;
-    text-align: center;
-    font-size: 30px;
+  margin-top: 10px;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
 }
 
 #war_low_part {
-    height: 30%;
-    width: 100%;
-    border: 2px solid #000;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 30px;
+  height: 30%;
+  width: 100%;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30px;
 }
 
 #D20_war {
-    height: 80px;
-    width: 80px;
-    font-size: 70px;
-    text-align: center;
-    background-color: transparent;
-    border: 1px solid #000;
-    margin-left: 25px;
+  height: 80px;
+  width: 80px;
+  font-size: 70px;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid #000;
+  margin-left: 25px;
 }
 
 #events_part {
-    display: flex;
+  display: flex;
 }
 
 #events_option {
-    background: none;
-    border: 2px solid #000;
+  background: none;
+  border: 2px solid #000;
 }
 
 #D20_war::-webkit-inner-spin-button,
 #D20_war::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 #war_button {
-    display: grid;
-    border: 2px solid #000;
-    height: 100%;
+  display: grid;
+  border: 2px solid #000;
+  height: 100%;
 }
 
 #Description_d20_border {
-    height: 100%;
-    width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #Description_d20 {
-    height: 100%;
-    width: 100%;
-    word-wrap: break-word;
+  height: 100%;
+  width: 100%;
+  word-wrap: break-word;
 }
 
 .D20_war {
-    display: none;
+  display: none;
 }
 
 .Dwar {
-    height: 140px;
-    width: 140px;
+  height: 140px;
+  width: 140px;
 }
 
 #War_karma_tittle {
-    margin-top: 10px;
-    height: 30px;
-    width: 100%;
-    text-align: center;
-    font-size: 30px;
+  margin-top: 10px;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
 }
 
 #karma_tittle {
-    margin-left: 110px;
+  margin-left: 110px;
 }
 
 #war_karma_part {
-    height: 30%;
-    width: 100%;
-    border: 2px solid #000;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 30px;
+  height: 30%;
+  width: 100%;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 30px;
 }
 
 .karma_input {
-    display: grid;
+  display: grid;
 }
 
 #D20_karma {
-    height: 80px;
-    width: 160px;
-    margin-left: 70px;
-    font-size: 70px;
-    text-align: center;
-    background-color: transparent;
-    border: 1px solid #000;
+  height: 80px;
+  width: 160px;
+  margin-left: 70px;
+  font-size: 70px;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid #000;
 }
 
 #D20_karma::-webkit-inner-spin-button,
 #D20_karma::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 #karma_option_0 {
-    display: flex;
+  display: flex;
 }
 
 #karma_option {
-    height: 45px;
-    font-size: 15px;
-    background: none;
-    border: 2px solid #000;
+  height: 45px;
+  font-size: 15px;
+  background: none;
+  border: 2px solid #000;
 }
 
 #karma_button {
-    display: grid;
-    border: 2px solid #000;
-    height: 100%;
+  display: grid;
+  border: 2px solid #000;
+  height: 100%;
 }
 
 #Description_d20_border_karma {
-    height: 100%;
-    width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #Description_d20_karma {
-    height: 100%;
-    width: 100%;
-    word-wrap: break-word;
+  height: 100%;
+  width: 100%;
+  word-wrap: break-word;
 }
 
 .D20_karma {
-    display: none;
+  display: none;
 }
 
 .Kwar {
-    height: 140px;
-    width: 140px;
+  height: 140px;
+  width: 140px;
 }
 
-.page[data-page="Campaign_Report"] {
-    margin-left: 125px;
-    height: 650px;
-    width: 940px;
+.page[data-page="campaign-report"] {
+  margin-left: 125px;
+  height: 650px;
+  width: 940px;
 }
 
 .screen {
-    height: 80%;
-    width: 96%;
-    border: 2px solid #000;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  height: 80%;
+  width: 96%;
+  border: 2px solid #000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .screen p {
-    background: #222;
-    color: #fff;
-    padding: 8px;
-    border-radius: 5px;
-    max-width: 100%;
-    word-wrap: break-word;
+  background: #222;
+  color: #fff;
+  padding: 8px;
+  border-radius: 5px;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
 .screen img {
-    max-width: 100%;
-    max-height: 400px;
-    height: auto;
-    object-fit: contain;
+  max-width: 100%;
+  max-height: 400px;
+  height: auto;
+  object-fit: contain;
 }
 
 ul[id^="contextMenu"] {
-    display: none;
-    position: absolute;
-    z-index: 1000;
-    background: #222;
-    color: white;
-    list-style: none;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #444;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background: #222;
+  color: white;
+  list-style: none;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #444;
 }
 
 .chat {
-    display: flex;
-    background-color: aqua;
-    height: 99px;
+  display: flex;
+  background-color: aqua;
+  height: 99px;
 }
 
 .message {
-    width: 93%;
-    height: auto;
-    background-color: #1b1919;
-    color: #ffffff;
-    word-wrap: break-word;
-    overflow-y: auto;
-    overflow-x: hidden;
-    font-size: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    resize: none;
+  width: 93%;
+  height: auto;
+  background-color: #1b1919;
+  color: #ffffff;
+  word-wrap: break-word;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  resize: none;
 }
 
 .button_world {
-    display: grid;
-    height: 100%;
-    width: 70px;
+  display: grid;
+  height: 100%;
+  width: 70px;
 }
 
 .img_icon {
-    height: 50px;
-    width: 70px;
-    cursor: pointer;
+  height: 50px;
+  width: 70px;
+  cursor: pointer;
 }
 
 .submit {
-    height: 50px;
+  height: 50px;
 }
 
 .page[data-page="sheet"] {
-    margin-left: 125px;
-    height: 570px;
-    width: 940px;
-    display: grid;
-    font-size: 20px;
+  margin-left: 125px;
+  height: 570px;
+  width: 940px;
+  display: grid;
+  font-size: 20px;
 }
 
 .sheetContextMenu {
-    display: none;
-    position: absolute;
-    z-index: 1000;
-    background: #222;
-    color: #fff;
-    list-style: none;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #444;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background: #222;
+  color: #fff;
+  list-style: none;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #444;
 }
 
 .top_1 {
-    display: flex;
+  display: flex;
 }
 
 .name {
-    margin-left: 10px;
-    margin-right: 10px;
-    background: none;
-    height: 80%;
-    width: 398px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background: none;
+  height: 80%;
+  width: 398px;
 }
 
 .religion {
-    margin-left: 10px;
-    background: none;
-    height: 80%;
-    width: 398px;
+  margin-left: 10px;
+  background: none;
+  height: 80%;
+  width: 398px;
 }
 
 .top_2 {
-    margin-top: 10px;
-    display: flex;
+  margin-top: 10px;
+  display: flex;
 }
 
 .race {
-    margin-left: 10px;
-    margin-right: 10px;
-    background: none;
-    height: 80%;
-    width: 405px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background: none;
+  height: 80%;
+  width: 405px;
 }
 
 .class {
-    margin-left: 10px;
-    background: none;
-    height: 80%;
-    width: 422px;
+  margin-left: 10px;
+  background: none;
+  height: 80%;
+  width: 422px;
 }
 
 .mid {
-    display: flex;
-    margin-top: 10px;
-    height: 300px;
+  display: flex;
+  margin-top: 10px;
+  height: 300px;
 }
 
 .flex {
-    display: flex;
+  display: flex;
 }
 
 h2 {
-    text-align: center;
-    margin: 0;
+  text-align: center;
+  margin: 0;
 }
 
 .True_attributes {
-    width: 403px;
-    border: 2px solid #000;
-    justify-items: center;
+  width: 403px;
+  border: 2px solid #000;
+  justify-items: center;
 }
 
 .Attributes {
-    margin-right: 30px;
+  margin-right: 30px;
 }
 
 .N {
-    height: 20px;
-    width: 35px;
-    margin-top: 10px;
+  height: 20px;
+  width: 35px;
+  margin-top: 10px;
 }
 
 .Gold {
-    width: 120px;
+  width: 120px;
 }
 
 .mid_1 {
-    margin-left: 10px;
-    border: 2px solid #000;
-    width: 519px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    justify-items: center;
+  margin-left: 10px;
+  border: 2px solid #000;
+  width: 519px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  justify-items: center;
 }
 
 .skills {
-    width: 482px;
-    margin: 0;
-    padding: 0;
+  width: 482px;
+  margin: 0;
+  padding: 0;
 }
 
 .skills li {
-    display: flex;
-    align-items: center;
-    height: 50px;
-    width: 480px;
-    display: flex;
-    align-items: center;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    overflow-y: auto;
-    overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 480px;
+  display: flex;
+  align-items: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .skills li::before {
-    content: '➤';
+  content: "➤";
 }
 
 .N2 {
-    width: 40px;
-    height: 20px;
-    margin-left: 10px;
+  width: 40px;
+  height: 20px;
+  margin-left: 10px;
 }
 
 .more_skill,
 .more_iten {
-    height: 60px;
-    width: 60px;
-    cursor: pointer;
-    margin: 0;
+  height: 60px;
+  width: 60px;
+  cursor: pointer;
+  margin: 0;
 }
 
 .bottom {
-    display: flex;
-    height: 190px;
+  display: flex;
+  height: 190px;
 }
 
 .itens {
-    width: 50%;
-    border: 2px solid #000;
-    overflow-y: auto;
-    overflow-x: hidden;
-    justify-items: center;
+  width: 50%;
+  border: 2px solid #000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  justify-items: center;
 }
 
 .iten_list {
-    margin: 0;
-    padding-left: 10px;
+  margin: 0;
+  padding-left: 10px;
 }
 
 .iten_list li {
-    height: 50px;
-    width: 430px;
-    display: flex;
-    justify-content: flex-start;
+  height: 50px;
+  width: 430px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .iten_name {
-    width: 372px;
-    height: 100%;
-    align-items: center;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    overflow-y: auto;
-    overflow-x: hidden;
+  width: 372px;
+  height: 100%;
+  align-items: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .iten_list li ::before {
-    content: '➤';
+  content: "➤";
 }
 
 .more_iten {
-    height: 60px;
-    width: 60px;
+  height: 60px;
+  width: 60px;
 }
 
 .background_sheet {
-    margin-left: 10px;
-    width: 451px;
-    border: 2px solid #000;
-    justify-items: center;
+  margin-left: 10px;
+  width: 451px;
+  border: 2px solid #000;
+  justify-items: center;
 }
 
 .story {
-    resize: none;
-    width: 416px;
-    height: 132px;
-    background: none;
-    border: 2px solid #000;
-    font-size: 20px;
+  resize: none;
+  width: 416px;
+  height: 132px;
+  background: none;
+  border: 2px solid #000;
+  font-size: 20px;
 }
 
 #tab_2_controler {
-    margin: 0;
-    height: 100%;
-    width: 47px;
-    display: flex;
-    align-items: center;
-    background-image: url("../Images/Background/Tab\ 2\ controler.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+  margin: 0;
+  height: 100%;
+  width: 47px;
+  display: flex;
+  align-items: center;
+  background-image: url("../Images/Background/Tab\ 2\ controler.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #tab_2 {
-    margin: 0;
-    height: 100%;
-    width: 500px;
-    box-sizing: border-box;
-    background-image: url("../Images/Background/Background\ Tab\ 2.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    justify-items: center;
+  margin: 0;
+  height: 100%;
+  width: 500px;
+  box-sizing: border-box;
+  background-image: url("../Images/Background/Background\ Tab\ 2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-items: center;
 }
 
 #tab_2_title {
-    margin: 0;
-    margin-top: 50px;
-    height: 30px;
-    width: 500px;
-    text-align: center;
+  margin: 0;
+  margin-top: 50px;
+  height: 30px;
+  width: 500px;
+  text-align: center;
 }
 
 #tab_2_table {
-    height: 299px;
-    width: 440px;
-    box-sizing: border-box;
-    border: 2px solid #000;
+  height: 299px;
+  width: 440px;
+  box-sizing: border-box;
+  border: 2px solid #000;
 }
 
 #tab_2_table {
-    display: flex;
+  display: flex;
 }
 
 #character-table {
-    table-layout: fixed;
-    border-collapse: collapse;
+  table-layout: fixed;
+  border-collapse: collapse;
 }
 
 #character-table th,
 #character-table td {
-    border: 1px solid #555;
-    padding: 5px;
-    text-align: center;
+  border: 1px solid #555;
+  padding: 5px;
+  text-align: center;
 }
 
 #character-table tr:first-child {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #character-table td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    overflow-x: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-x: auto;
 }
 
 #character-table td:first-child {
-    max-width: 150px;
-    overflow-x: auto;
-    white-space: nowrap;
+  max-width: 150px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
-
 #tab_2_table table {
-    table-layout: fixed;
-    overflow: hidden;
+  table-layout: fixed;
+  overflow: hidden;
 }
 
 #tab_2_table td {
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .column-scroll {
-    overflow: auto;
-    width: 100%;
+  overflow: auto;
+  width: 100%;
 }
 
 .column-scroll table {
-    border-collapse: collapse;
-    min-width: 700px;
+  border-collapse: collapse;
+  min-width: 700px;
 }
 
 .column-scroll th,
 .column-scroll td {
-    padding: 6px;
-    text-align: center;
-    border-bottom: 1px solid #000000;
-    border-right: 1px solid #000000;
+  padding: 6px;
+  text-align: center;
+  border-bottom: 1px solid #000000;
+  border-right: 1px solid #000000;
 }
 
 .header {
-    background: none;
-    font-weight: bold;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+  background: none;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 #paint {
-    position: relative;
-    height: 285px;
-    width: 436px;
-    overflow: hidden;
-    border: 2px solid #000;
-    display: flex;
+  position: relative;
+  height: 285px;
+  width: 436px;
+  overflow: hidden;
+  border: 2px solid #000;
+  display: flex;
 }
 
 #japanMap {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 #mapContainer {
-    width: 80%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    background-color: aqua;
+  width: 80%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: aqua;
 }
 
 #svg511 {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 #legend {
-    width: 20%;
-    height: 100%;
-    background: #222;
-    color: white;
-    overflow-y: auto;
-    padding: 5px;
-    box-sizing: border-box;
-    font-size: 12px;
-    display: grid;
+  width: 20%;
+  height: 100%;
+  background: #222;
+  color: white;
+  overflow-y: auto;
+  padding: 5px;
+  box-sizing: border-box;
+  font-size: 12px;
+  display: grid;
 }
 
 #legend-controls {
-    width: 100%;
-    height: 30px;
-    cursor: pointer;
+  width: 100%;
+  height: 30px;
+  cursor: pointer;
 }
 
 .clan-button {
-    color: white;
-    text-align: center;
-    cursor: pointer;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
-    width: 100%;
-    height: 30px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  width: 100%;
+  height: 30px;
 }
 
 .tooltip {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 20px;
-    pointer-events: none;
-    z-index: 9999;
-    white-space: nowrap;
-    justify-items: center;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 20px;
+  pointer-events: none;
+  z-index: 9999;
+  white-space: nowrap;
+  justify-items: center;
 }
 
-.page[data-page="Big_NPCs"] {
-    display: flex;
-    height: 570px;
+.page[data-page="big-npcs"] {
+  display: flex;
+  height: 570px;
 }
 
 #NPCs_Clas_name {
-    height: 100%;
-    width: 15%;
-    border: 2px solid #000;
-    text-align: center;
-    font-size: 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  height: 100%;
+  width: 15%;
+  border: 2px solid #000;
+  text-align: center;
+  font-size: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #NPCs_Clas_name p {
-    border: 2px solid #000;
-    margin-bottom: 10px;
-    cursor: pointer;
+  border: 2px solid #000;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 
 #Info_Clan {
-    border: 2px solid #000;
-    margin-left: 10px;
-    height: 100%;
-    width: 85%;
-    display: grid;
+  border: 2px solid #000;
+  margin-left: 10px;
+  height: 100%;
+  width: 85%;
+  display: grid;
 }
 
 #Info_Clan h2 {
-    height: auto;
+  height: auto;
 }
 
 #Clan_top {
-    height: 180px;
-    border: 2px solid #000;
-    overflow-y: auto;
-    overflow-x: hidden;
+  height: 180px;
+  border: 2px solid #000;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #Clan_mid {
-    height: 160px;
-    border: 2px solid #000;
-    display: flex;
+  height: 160px;
+  border: 2px solid #000;
+  display: flex;
 }
 
 #Clan_mid_1,
 #Clan_mid_2,
 #Clan_mid_3 {
-    border: 2px solid #000;
-    width: 33%;
-    text-align: center;
-    overflow-y: auto;
-    overflow-x: hidden;
+  border: 2px solid #000;
+  width: 33%;
+  text-align: center;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #Clan_buttom {
-    height: 180px;
-    border: 2px solid #000;
-    overflow-y: auto;
-    overflow-x: hidden;
+  height: 180px;
+  border: 2px solid #000;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.page[data-page="Guild"] {
-    display: flex;
-    height: 570px;
+.page[data-page="guild"] {
+  display: flex;
+  height: 570px;
 }
 
 #Guild_description {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    width: 50%;
-    border: 2px solid #000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  width: 50%;
+  border: 2px solid #000;
 }
 
 #Guild_description p,
 table {
-    padding: 10px;
+  padding: 10px;
 }
 
 #Guild_description td,
 th {
-    border: 2px solid #000;
-    text-align: center;
+  border: 2px solid #000;
+  text-align: center;
 }
 
 #Guild_right_part {
-    height: 560px;
-    width: 50%;
-    border: 2px solid #000;
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-right: 10px;
+  height: 560px;
+  width: 50%;
+  border: 2px solid #000;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
 }
 
 #Party_description {
-    display: flex;
-    width: 459px;
-    height: 100px;
+  display: flex;
+  width: 459px;
+  height: 100px;
 }
 
 #p2 {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    width: 338px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  width: 338px;
 }
 
 #Party_name {
-    text-align: center;
-    padding-bottom: 5px;
+  text-align: center;
+  padding-bottom: 5px;
 }
 
 #Party_description_2 {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 #Party_class {
-    border: 1px solid #000;
-    width: 120px;
-    text-align: center;
-    padding-top: 28px;
+  border: 1px solid #000;
+  width: 120px;
+  text-align: center;
+  padding-top: 28px;
 }
 
 #D20_guild {
-    height: 100%;
-    width: auto;
-    border: 1px solid #000;
+  height: 100%;
+  width: auto;
+  border: 1px solid #000;
 }
 
 #Party_description {
-    border: 2px solid #000;
+  border: 2px solid #000;
 }
 
 #Quest {
-    margin-top: 10px;
-    border: 2px solid #000;
-    height: 77%;
-    justify-items: center;
-    overflow-y: auto;
-    overflow-x: hidden;
+  margin-top: 10px;
+  border: 2px solid #000;
+  height: 77%;
+  justify-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #Quest_search {
-    font-size: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .quests {
-    width: 95%;
-    height: 113px;
-    border: 2px solid #000;
-    margin-bottom: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  width: 95%;
+  height: 113px;
+  border: 2px solid #000;
+  margin-bottom: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* New Territory */
 #Territory_attributes {
-    border: 2px solid #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #Territory_attributes img {
-    height: 50px;
-    width: 48px;
-    margin: 5px;
+  height: 50px;
+  width: 48px;
+  margin: 5px;
 }
 
 #Territory_attributes input {
-    width: 50px;
-    background: none;
-    height: 20px;
+  width: 50px;
+  background: none;
+  height: 20px;
 }
 
 #Territories_description {
-    width: 150px;
-    padding: 0;
+  width: 150px;
+  padding: 0;
 }
 
 #Territories_description img {
-    height: 50px;
-    width: 50px;
+  height: 50px;
+  width: 50px;
 }
 
 #Territories_description li {
-    width: 100%;
+  width: 100%;
 }
 
 #Territories_main {
-    display: flex;
+  display: flex;
 }
 
 #Territories_mid {
-    margin-top: 16px;
-    margin-left: 10px;
-    height: 508px;
-    width: 600px;
+  margin-top: 16px;
+  margin-left: 10px;
+  height: 508px;
+  width: 600px;
 }
 
 #Territory_specialty {
-    border: 2px solid #000;
-    height: 150px;
+  border: 2px solid #000;
+  height: 150px;
 }
 
 .specialty {
-    width: 99%;
-    height: 96%;
-    text-align: center;
-    background: none;
+  width: 99%;
+  height: 96%;
+  text-align: center;
+  background: none;
 }
 
 #action {
-    border: 2px solid #000;
-    margin-top: 10px;
-    height: 344px;
-    text-align: center;
+  border: 2px solid #000;
+  margin-top: 10px;
+  height: 344px;
+  text-align: center;
 }
 
 #Event_description {
-    display: flex;
-    height: 93%;
+  display: flex;
+  height: 93%;
 }
 
 #Name_description {
-    border: 2px solid #000;
-    width: 50%;
-    margin-left: 10px;
-    height: 318px;
+  border: 2px solid #000;
+  width: 50%;
+  margin-left: 10px;
+  height: 318px;
 }
 
 .Event_action {
-    width: 97%;
-    height: 98%;
-    background: none;
+  width: 97%;
+  height: 98%;
+  background: none;
 }
 
 #Event_effect {
-    border: 2px solid #000;
-    width: 50%;
-    margin-left: 10px;
-    margin-right: 10px;
-    height: 318px;
-    display: grid;
-    overflow-y: auto;
-    overflow-x: hidden;
-    justify-items: center;
-    font-size: 30px;
+  border: 2px solid #000;
+  width: 50%;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 318px;
+  display: grid;
+  overflow-y: auto;
+  overflow-x: hidden;
+  justify-items: center;
+  font-size: 30px;
 }
 
 #Event_effect input {
-    width: 100px;
-    text-align: center;
+  width: 100px;
+  text-align: center;
 }
 
 #Territories_rigth {
-    border: 2px solid #000;
-    margin-left: 10px;
-    margin-top: 16px;
-    width: 200px;
-    height: 508px;
-    text-align: center;
+  border: 2px solid #000;
+  margin-left: 10px;
+  margin-top: 16px;
+  width: 200px;
+  height: 508px;
+  text-align: center;
 }
 
 .Random_event {
-    border: 2px solid #000;
-    margin: 5px;
-    height: 219px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  border: 2px solid #000;
+  margin: 5px;
+  height: 219px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #more_sheet {
-    height: 60px;
-    width: 60px;
+  height: 60px;
+  width: 60px;
 }
 
 #Tfoot {
-    margin: 0;
-    padding: 0;
-    padding-right: 100px;
-    height: 94px;
-    width: 1779px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-image: url("../Images/Background/background\ foot.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    overflow-y: hidden;
-    overflow-x: auto;
+  margin: 0;
+  padding: 0;
+  padding-right: 100px;
+  height: 94px;
+  width: 1779px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-image: url("../Images/Background/background\ foot.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow-y: hidden;
+  overflow-x: auto;
 }
 
 #Tfoot li:first-child {
-    margin-left: 100px;
+  margin-left: 100px;
 }
 
 #Tfoot li {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 60px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 60px;
 }
 
 .Character_sheet {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
